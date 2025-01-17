@@ -43,7 +43,7 @@ An extra short summary of these notes goes here.
 
 ## FEEDBACK 📃
 
-We are always open for feedback and discussions. If you are using our project and want to share your use case, or if you have any suggestions for improvement, please feel free to [open an issue](LINK) or [open a discussion](LINK) on our GitHub repository. Your input helps us understand possible use cases and make necessary improvements.
+We are always open for feedback and discussions. If you are using our project and want to share your use case, or if you have any suggestions for improvement, please feel free to [open an issue](https://github.com/MorganKryze/MyHomeNAS/issues) on our GitHub repository. Your input helps us understand possible use cases and make necessary improvements.
 
 ---
 
