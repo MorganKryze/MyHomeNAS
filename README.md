@@ -2,94 +2,34 @@
 
 ## Overview
 
-> Add a short description of the project here.
+> MyHomeNAS present you builds and guides to create your home (own) NAS using a Single Board Computer (SBC) and OpenMediaVault (OMV).
 
-Add important information about the project here.
-
-## Getting Started
-
-- [Overview](#overview)
-- [Getting Started](#getting-started)
-  - [Documentation](#documentation)
-  - [Setting up](#setting-up)
-    - [Prerequisites](#prerequisites)
-    - [Install](#install)
-    - [Usage](#usage)
-    - [Build \& Run](#build--run)
-  - [Troubleshooting](#troubleshooting)
-  - [Supported platforms](#supported-platforms)
-  - [Supported languages](#supported-languages)
-  - [Future improvements](#future-improvements)
-  - [Contributing](#contributing)
-  - [License](#license)
-
-### Documentation
-
-Provide where to find to the documentation of the project. (ex: [Structure of the project](./docs/STRUCTURE.md))
-
-It may include a link to an important [reference](https://example.com).
-
-### Setting up
-
-#### Prerequisites
-
-- Define tools and libraries that are required to run the project with the version number.
-- If available, provide a link to the installation guide.
-- You may also add concepts or knowledge that are required to understand the project.
-
-#### Install
-
-Details here explicit instructions to install the project.
-
-Here are the info blocks available for github markdown:
-
-> [!NOTE]
-> Do not hesitate to add a note if necessary.
-
-> [!TIP]
-> Do not hesitate to add a tip if necessary.
+The goal of this project is to provide a secure and reliable NAS config to store your data and to access it from anywhere and deploy useful homelab services. The configuration allow modularity for future improvements, scalability and different budgets.
 
 > [!WARNING]
-> Do not hesitate to add a warning if necessary.
+> The authors of this project are not responsible for any data loss, hardware failure or security breach. You are the only responsible for your data and your network. See this project as suggestions and should be adapted to your needs and your knowledge.
 
-> [!IMPORTANT]
-> Do not hesitate to add an important note if necessary.
+### Table of contents
 
-> [!CAUTION]
-> Do not hesitate to add a caution if necessary.
+- [Overview](#overview)
+  - [Table of contents](#table-of-contents)
+- [Documentation](#documentation)
+- [Supported languages](#supported-languages)
+- [Contributing](#contributing)
+- [License](#license)
 
-#### Usage
+## Documentation
 
-Detail here the instructions to use the project.
+The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. The documentation is divided into an [`index.md`](./docs/index.md) that would guide you into the different parts.
 
-#### Build & Run
+## Supported languages
 
-Detail here the instructions to build and run the project.
+- Only English is supported for now. The project may be translated in the future if the interest is there.
 
-### Troubleshooting
+## Contributing
 
-Detail here the troubleshooting of the project.
+If you want to contribute to the project, you can follow the steps described in the [CONTRIBUTING](./.github/CONTRIBUTING.md) file or [open an issue](https://github.com/MorganKryze/MyHomeNAS/issues) to discuss your ideas.
 
-### Supported platforms
+## License
 
-- Precise here the platforms that are supported by the project.
-- If available, provide a link to the installation guide.
-- If in testing, do not hesitate to mention it.
-
-### Supported languages
-
-- Precise here the languages that are supported by the project.
-- If necessary, precise if some languages needs to be checked.
-
-### Future improvements
-
-- Precise here the future improvements that are planned for the project.
-- ~~Imporvement done can be styled like this.~~
-
-### Contributing
-
-If you want to contribute to the project, you can follow the steps described in the [CONTRIBUTING](./.github/CONTRIBUTING.md) file.
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+This project is licensed under the GNU GPL v3, which allows you to _use_, _modify_, and _distribute_ the software freely, as long as you **provide the source code** and do not add restrictions that limit others' rights under the same license. For full details, refer to the [LICENSE](LICENSE) file.
