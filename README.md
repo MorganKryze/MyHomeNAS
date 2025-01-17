@@ -11,7 +11,9 @@ The goal of this project is to provide a secure and reliable NAS config to store
 
 ## Project
 
-The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. The documentation is divided into an --> [`index.md`](./docs/index.md) <-- that would guide you into the different parts.
+The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. 
+
+See -> [`index.md`](./docs/index.md) <- to discover everything!
 
 ## Supported languages
 
