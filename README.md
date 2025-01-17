@@ -9,18 +9,9 @@ The goal of this project is to provide a secure and reliable NAS config to store
 > [!WARNING]
 > The authors of this project are not responsible for any data loss, hardware failure or security breach. You are the only responsible for your data and your network. See this project as suggestions and should be adapted to your needs and your knowledge.
 
-### Table of contents
+## Project
 
-- [Overview](#overview)
-  - [Table of contents](#table-of-contents)
-- [Documentation](#documentation)
-- [Supported languages](#supported-languages)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Documentation
-
-The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. The documentation is divided into an [`index.md`](./docs/index.md) that would guide you into the different parts.
+The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. The documentation is divided into an --> [`index.md`](./docs/index.md) <-- that would guide you into the different parts.
 
 ## Supported languages
 
