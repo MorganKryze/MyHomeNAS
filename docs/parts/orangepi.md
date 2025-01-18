@@ -1,8 +1,12 @@
-# OrangePi Setup
+# Orange Pi Setup
+
+> This guide will help you to setup your Orange Pi SBC with a secure environment and some useful tools. The goal is to prepare the SBC to install and config OMV.
+
+- **Want to go back to the index page?** [click here](../index.md).
 
 ## Table of Contents
 
-- [OrangePi Setup](#orangepi-setup)
+- [Orange Pi Setup](#orange-pi-setup)
   - [Table of Contents](#table-of-contents)
   - [I - Installation](#i---installation)
     - [Flash the SBC](#flash-the-sbc)
@@ -24,6 +28,7 @@
     - [Adding some useful tools](#adding-some-useful-tools)
     - [Adding Endlessh](#adding-endlessh)
     - [Bonus - File manager](#bonus---file-manager)
+  - [Next step](#next-step)
   - [Sources](#sources)
 
 ## I - Installation
@@ -32,10 +37,11 @@ This section will be focusing on the installation of the SBC and the configurati
 
 ### Flash the SBC
 
-> [!NOTE]
-> Raspberry Pi users will only have to flash the SD card using the Raspberry Pi Imager. Choose a `64-bit` OS, `no-desktop` environment and go for the `Raspberry Pi OS Lite` version. You may skip to the next section.
+> Flashing the SBC is the first step to get it up and running. We will use the official OS image for the Orange Pi.
 
-- Download the OS image for your SBC from the official websites (i. e. [Orange Pi OS](https://www.orangepi.org/downloadresources/) as we are using an Orange Pi SBC).
+- Download the OS image for your specific SBC from the official websites (i. e. [Orange Pi OS](http://www.orangepi.org/html/serviceAndSupport/index.html) as we are using an Orange Pi SBC).
+
+![Orange Pi OS](../assets/img/orangepi/images.png)
 
 - Flash the SD card using [Balena Etcher](https://etcher.balena.io/) with the downloaded image.
 
@@ -49,15 +55,11 @@ This section will be focusing on the installation of the SBC and the configurati
 
 > Setting up IP addresses is a crucial step to manage your network and improve its security.
 
-Usually, only the IP range `192.168.1.x` is used on your local network and manage by your router via DHCP. Here, we advice to manage your network with multiple IP ranges to separate devices and services. This will help you to manage your network and to secure it.
+In a typical local network setup, the IP range `192.168.1.x` is used and managed by your router through DHCP. To enhance network management and security, it's beneficial to utilize static IP addresses for certain devices.
 
-- 192.168.1.x : [DHCP] standard devices (phones, tablets, laptops, smart tv...)
-- 192.168.2.x : [Static IP] permanent devices (dev laptop, desktop, printer...)
-- 192.168.3.x : [Static IP] servers (NAS, PiHole, Home Assistant...)
-
-We will consider that your **Client PC** is connected to `192.168.2.1` and that your SBC is connected to `192.168.3.1` using static leases.
-
-TODO: Update this part as its obsolete.
+- 192.168.1.1-50: [DHCP] For standard devices such as phones, tablets, laptops, and smart TVs.
+- 192.168.1.51-100: [Static IP] For permanent devices like a development laptop, desktop, or printer. In this example, let's assume your **Client PC** is assigned the static IP `192.168.1.51`.
+- 192.168.1.101-200: [Static IP] For servers like a Network Attached Storage (NAS), PiHole, or Home Assistant. Your Single Board Computer (SBC) might be assigned the static IP `192.168.1.101`.
 
 ## II - Basic configuration
 
@@ -625,6 +627,10 @@ function y() {
 
 After rebooting, you may now use the `y` command to open the file manager (you may exit the file manager by pressing `q`).
 
+## Next step
+
+You may now proceed to the [OpenMediaVault](./omv-first-boot.md) installation.
+
 ## Sources
 
 Here is the most exhaustive I could make of the sources I used to write this guide:
@@ -636,4 +642,5 @@ Here is the most exhaustive I could make of the sources I used to write this gui
 ---
 
 Last update: Jan. 2025
+
 Created: Oct. 2024
