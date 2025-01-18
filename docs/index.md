@@ -46,7 +46,7 @@ Hardware:
 Software:
 
 - [**Raspberry Pi Imager**](https://www.raspberrypi.com/software/): a tool that is used to flash OS images to SD cards given additional parameters **only** for Raspberry Pi SBC.
-- [**Balena Etcher**](https://www.raspberrypi.com/software/): a tool that is similarly used to flash OS images to SD cards and USB drives as RPI Imager. However, you won't be able to add additional parameters to the image. It can be used for both arm[^3] and amd[^3] architectures.
+- [**Balena Etcher**](https://www.raspberrypi.com/software/): a tool that is similarly used to flash OS images to SD cards and USB drives as RPI Imager. However, you won't be able to add additional parameters to the image. It can be used for both arm and amd architectures.[^3]
 - **OS image**: The image of the OS you want to install on your SBC. You can find the official images on the official websites of the SBCs. Here are some links to the official websites of the most common SBCs:
   - [Orange Pi OS](https://www.orangepi.org/downloadresources/)
   - [Armbian](https://www.armbian.com/download/)
