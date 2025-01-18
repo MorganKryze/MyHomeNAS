@@ -433,6 +433,13 @@ clamav
 
 Fail2ban
 
+## Sources
+
+Here is the most exhaustive I could make of the sources I used to write this guide:
+
+- [Wiki for the installation on Raspberry Pi and affiliates](https://wiki.omv-extras.org/doku.php?id=omv7:raspberry_pi_install) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation
+- [Wiki for the walkthrough of the setup on the WebGUI](https://wiki.omv-extras.org/doku.php?id=omv7:new_user_guide#web_console_login) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation
+
 ---
 
 Last update: Jan. 2025

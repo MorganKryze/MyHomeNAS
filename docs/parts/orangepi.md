@@ -24,6 +24,7 @@
     - [Adding some useful tools](#adding-some-useful-tools)
     - [Adding Endlessh](#adding-endlessh)
     - [Bonus - File manager](#bonus---file-manager)
+  - [Sources](#sources)
 
 ## I - Installation
 
@@ -623,6 +624,14 @@ function y() {
 ```
 
 After rebooting, you may now use the `y` command to open the file manager (you may exit the file manager by pressing `q`).
+
+## Sources
+
+Here is the most exhaustive I could make of the sources I used to write this guide:
+
+- [Orange Pi 5 Plus Specs](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5-plus.html) from its [OrangePi](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5-plus.html) documentation.
+- [Orange Pi - Setting Up a Secure Web Server on a Single Board Computer](https://ambientnode.uk/orange-pi-webhost/) By [Zsolt Bizderi](https://ambientnode.uk/author/zsolt/)
+- [Installation on Debian for OpenMediaVault](https://docs.openmediavault.org/en/stable/installation/on_debian.html) from the [OpenMediaVault](https://docs.openmediavault.org/en/stable/index.html) documentation
 
 ---
 
