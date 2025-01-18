@@ -2,7 +2,7 @@
 
 ## Overview
 
-> MyHomeNAS provides you builds and guides to create your home (own) NAS using a Single Board Computer (SBC) and OpenMediaVault (OMV).
+> MyHomeNAS provides you builds and guides to create your home (own) NAS using a Single Board Computer and OpenMediaVault.
 
 The goal of this project is to provide a "template" for you to get inspiration and build your own secure and reliable NAS config to store your data and to access it from anywhere and deploy useful homelab services. The configuration allow modularity for future improvements, scalability and different budgets.
 
