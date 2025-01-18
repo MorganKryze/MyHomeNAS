@@ -105,13 +105,13 @@ Software:
 ### Get your SBC ready
 
 - **Orange Pi 5 Plus** -> [here](./parts/orangepi.md)
-- **Raspberry Pi 5** -> [here](./parts/raspberrypi.md)
+- **Raspberry Pi 5** -> [here](./parts/raspberrypi.md) WIP
 
 ### Setup OMV
 
 - **First boot** -> [here](./parts/omv-first-boot.md)
-- **Storage** -> [here](./parts/omv-storage.md)
-- **Docker** -> [here](./parts/omv-docker.md)
+- **Storage** -> [here](./parts/omv-storage.md) WIP
+- **Docker** -> [here](./parts/omv-docker.md) WIP
 
 [^1]: [Hardware Haven](https://www.youtube.com/@HardwareHaven) did a great video on the subject, you can find it [here](https://www.youtube.com/watch?v=ykhaXo6m-04).
 [^2]: To learn more about file systems explore this thread on [reddit](https://www.reddit.com/r/linuxquestions/comments/kptm30/zfs_vs_btrfs_vs_ext4_for_a_consumer/).
