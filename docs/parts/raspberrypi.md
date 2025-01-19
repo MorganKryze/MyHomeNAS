@@ -338,18 +338,6 @@ source ~/.bashrc
 sudo nala install git -y
 ```
 
-- Install `libpam-tmpdir` for better management of temporary directories:
-
-```bash
-sudo nala install libpam-tmpdir -y
-```
-
-- Install `needrestart` to check if a service needs to be restarted after an update:
-
-```bash
-sudo nala install needrestart -y
-```
-
 ### Bonus - File manager
 
 > Yazi is a simple file manager that can be used to manage files on your server with a nice UI.
