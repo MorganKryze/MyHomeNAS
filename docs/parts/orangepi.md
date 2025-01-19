@@ -74,7 +74,7 @@ Now that your SBC is up and running, you can connect to it using SSH and fix som
 - Connect to your SBC using SSH, the default password is `orangepi`.
 
 ```bash
-ssh orangepi@192.168.3.1
+ssh orangepi@192.168.1.x
 ```
 
 - Enter the config panel to remove the Bluetooth service (`Network` > `Remove BT`) with the command:
@@ -105,7 +105,7 @@ sudo orangepi-config
 sudo orangepi-config
 ```
 
-You may replace the current hostname with `nas`.
+You may replace the current hostname with `myhomenas`.
 
 - Reboot the SBC to apply the changes:
 
@@ -345,7 +345,7 @@ DenyUsers orangepi
 - Finally, reboot and reconnect to the Pi:
 
 ```bash
-ssh sysadmin@192.168.3.1
+ssh sysadmin@192.168.1.x
 ```
 
 > [!WARNING]
@@ -357,24 +357,24 @@ ssh sysadmin@192.168.3.1
 
 - Back to your client computer, generate a new SSH key:
 
-> - `-f ~/.ssh/nas`: is optional and indicates the path to the key file.
-> - `-C "nas"`: is optional and adds a comment to the key.
+> - `-f ~/.ssh/myhomenas`: is optional and indicates the path to the key file.
+> - `-C "myhomenas"`: is optional and adds a comment to the key.
 > - `-N "yourpassphrase"`: is optional and adds a passphrase to the key to enter when using it.
 
 ```bash
-ssh-keygen -f ~/.ssh/nas -C "nas" -N "yourpassphrase"
+ssh-keygen -f ~/.ssh/myhomenas -C "myhomenas" -N "yourpassphrase"
 ```
 
 - Display the publickey to copy it later:
 
 ```bash
-cat ~/.ssh/nas.pub
+cat ~/.ssh/myhomenas.pub
 ```
 
 - Add the key to your ssh-agent:
 
 ```bash
-ssh-add ~/.ssh/nas
+ssh-add ~/.ssh/myhomenas
 ```
 
 - Set the host at the top of your `~/.ssh/config` file and replace the IP address with the one of your Pi:
@@ -384,12 +384,12 @@ sudo nano ~/.ssh/config
 ```
 
 ```plaintext
-Host nas
+Host myhomenas
   User sysadmin
-  HostName 192.168.3.1
+  HostName 192.168.1.x
   Port 42
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/nas
+  IdentityFile ~/.ssh/myhomenas
 ```
 
 ### SSH key setup - Server
@@ -410,7 +410,7 @@ nano ~/.ssh/authorized_keys
 ```
 
 ```plaintext
-ssh-ed25519 something_long_with_numbers_and_letters nas
+ssh-ed25519 something_long_with_numbers_and_letters myhomenas
 ```
 
 - Edit the `sshd_config` file:
@@ -436,7 +436,7 @@ sudo reboot
 - And finally, connect to the Pi using the new user:
 
 ```bash
-ssh nas
+ssh myhomenas
 ```
 
 ## IV - Configuring the environment
@@ -487,7 +487,7 @@ chsh -s /bin/zsh
 
 ```bash
 sudo reboot
-ssh nas
+ssh myhomenas
 ```
 
 ### Adding some useful tools
