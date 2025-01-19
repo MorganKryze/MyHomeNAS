@@ -12,21 +12,16 @@
     - [Flash the SBC](#flash-the-sbc)
     - [Setting up IP addresses](#setting-up-ip-addresses)
   - [II - Basic configuration](#ii---basic-configuration)
-    - [Disabling Bluetooth](#disabling-bluetooth)
-    - [Changing the timezone](#changing-the-timezone)
-    - [Changing the hostname](#changing-the-hostname)
-    - [Preventing a known issue with vfat system](#preventing-a-known-issue-with-vfat-system)
+    - [First ssh connection](#first-ssh-connection)
+    - [Changing the locale](#changing-the-locale)
     - [Changing the package repositories](#changing-the-package-repositories)
     - [Updating DNS](#updating-dns)
-  - [III - Adding a new user](#iii---adding-a-new-user)
-    - [Setting up a new user](#setting-up-a-new-user)
+  - [III - Securing the Pi connection](#iii---securing-the-pi-connection)
     - [SSH key setup - Client PC](#ssh-key-setup---client-pc)
-    - [SSH key setup - Server](#ssh-key-setup---server)
+    - [SSH key setup - NAS](#ssh-key-setup---nas)
   - [IV - Configuring the environment](#iv---configuring-the-environment)
     - [Editor](#editor)
-    - [Changing the default shell](#changing-the-default-shell)
     - [Adding some useful tools](#adding-some-useful-tools)
-    - [Adding Endlessh](#adding-endlessh)
     - [Bonus - File manager](#bonus---file-manager)
   - [Next step](#next-step)
   - [Sources](#sources)
@@ -73,114 +68,57 @@ In a typical local network setup, the IP range `192.168.1.x` is used and managed
 
 ## II - Basic configuration
 
-From now on we will consider that your SBC is an OrangePi. Some part may need to be adapted to your SBC.
-
 Now that your SBC is up and running, you can connect to it using SSH and fix some common known issues.
 
-### Disabling Bluetooth
+### First ssh connection
 
-> If enabled but not used, the Bluetooth service can be a security breach. It is recommended to disable it.
+> We will connect to the Raspberry Pi using the previously entered credentials.
 
-- Connect to your SBC using SSH, the default password is `orangepi`.
-
-```bash
-ssh orangepi@192.168.3.1
-```
-
-- Enter the config panel to remove the Bluetooth service (`Network` > `Remove BT`) with the command:
+- First method: using the terminal on your **Client PC** and the hostname `myhomenas`:
 
 ```bash
-sudo orangepi-config
+ssh sysadmin@myhomenas.local
 ```
 
-Seeing `Install BT` means that the Bluetooth service is already disabled.
-
-### Changing the timezone
-
-> The default timezone may not be the one you are living in. We will change it to match your location.
-
-- Change the timezone (`Personal` > `Timezone`) with the command:
+- Second method: using the terminal on your **Client PC** and the IP address (skip the network scanning if you set up a static lease):
 
 ```bash
-sudo orangepi-config
+nmap -sn 192.168.1.0/24
 ```
 
-### Changing the hostname
-
-> The hostname is the name of your device on the network. It is used to identify your device and to access it remotely.
-
-- While still being connected to the SBC, change the hostname (`Personal` > `Hostname`) with the command:
+And try to connect to the IP found with the following command (replace `192.168.1.x` with the IP found):
 
 ```bash
-sudo orangepi-config
+ssh sysadmin@192.168.1.x
 ```
 
-You may replace the current hostname with `nas`.
-
-- Reboot the SBC to apply the changes:
+- Third method: if you did not manage to connect successfully, connect a keyboard and a screen to the SBC and login with the credentials you entered in the Raspberry Pi Imager. Then, search for the IP address with the following command:
 
 ```bash
-sudo reboot
+hostname -I | awk '{print $1}'
 ```
 
-### Preventing a known issue with vfat system
+### Changing the locale
 
-> the error raised here when installing/removing a package:
->
-> ```plaintext
-> ln: failed to create hard link '/boot/initrd.img-5.10.110-rockchip-rk3588.dpkg-bak' => '/boot/initrd.img-5.10.110-rockchip-rk3588': Operation not permitted
-> update-initramfs: Generating /boot/initrd.img-5.10.110-rockchip-rk3588
-> update-initramfs: Converting to u-boot format
-> ```
->
-> We will resolve it by changing the hard link to a copy.
+> Once logged in the Pi, we update the default locale to yours.
 
-- First, create a backup of the original `update-initramfs` script:
+- Execute and go down to `en_GB.UTF-8 UTF-8`, press enter, two times:
 
 ```bash
-sudo cp /usr/sbin/update-initramfs /usr/sbin/update-initramfs.bak
+sudo dpkg-reconfigure locales
 ```
 
-- Then edit the script:
+![locale-1](../assets/img/raspberrypi/locale-1.png)
+
+![locale-2](../assets/img/raspberrypi/locale-2.png)
+
+- Then, run:
 
 ```bash
-sudo nano /usr/sbin/update-initramfs
+sudo update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 ```
 
-- Find the following line:
-
-```plaintext
-backup_initramfs()
-{
-        [ ! -r "${initramfs}" ] && return 0
-        initramfs_bak="${initramfs}.dpkg-bak"
-        [ -r "${initramfs_bak}" ] && rm -f "${initramfs_bak}"
-        ln -f "${initramfs}" "${initramfs_bak}" \
-                || cp -a "${initramfs}" "${initramfs_bak}"
-        verbose "Keeping ${initramfs_bak}"
-}
-```
-
-- Replace it with the following then save and exit:
-
-```plaintext
-backup_initramfs()
-{
-        [ ! -r "${initramfs}" ] && return 0
-        initramfs_bak="${initramfs}.dpkg-bak"
-        [ -r "${initramfs_bak}" ] && rm -f "${initramfs_bak}"
-        cp -a "${initramfs}" "${initramfs_bak}"
-        verbose "Keeping ${initramfs_bak}"
-}
-```
-
-- Finally, update the initramfs:
-
-```bash
-sudo update-initramfs -u
-```
-
-- Reboot the SBC to apply the changes:
+- Finally, reboot:
 
 ```bash
 sudo reboot
@@ -190,7 +128,7 @@ sudo reboot
 
 > The default package repositories may not be up-to-date and target chinese servers. We will change them to use the official Debian repositories.
 
-- Using ssh, get back on the Pi, edit the `/etc/apt/sources.list` file:
+- Using ssh, edit the `/etc/apt/sources.list` file:
 
 ```bash
 sudo nano /etc/apt/sources.list
@@ -207,28 +145,6 @@ deb-src http://security.debian.org/debian-security bookworm-security main contri
 
 deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free non-free-firmware
 deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free non-free-firmware
-```
-
-- Update the docker list at `/etc/apt/sources.list.d/docker.list`:
-
-```bash
-sudo nano /etc/apt/sources.list.d/docker.list
-```
-
-```plaintext
-deb [arch=amd64 signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian bookworm stable
-```
-
-- Remove Docker's GPG key from the legacy trusted.gpg keyring:
-
-```bash
-sudo apt-key --keyring /etc/apt/trusted.gpg del 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-```
-
-- Downlaod Docker's GPG key:
-
-```bash
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker-archive-keyring.gpg
 ```
 
 - Update the package list:
@@ -274,92 +190,12 @@ nameserver 1.0.0.1
 - Test the DNS resolution:
 
 ```bash
-nslookup google.com
+ping google.com
 ```
 
-- Restart the network service:
+## III - Securing the Pi connection
 
-```bash
-sudo service networking restart
-```
-
-## III - Adding a new user
-
-In this section, we will create a new user, disable the default user and setup SSH keys to connect to the Pi.
-
-### Setting up a new user
-
-> Creating a new user and disabling the default user is a good practice to secure your server by managing granularly your user's permissions.
-
-- First we change the default password for `root`:
-
-```bash
-sudo passwd root
-```
-
-- Then we edit the sudoers permissions:
-
-```bash
-sudo chmod 750 /etc/sudoers.d
-```
-
-- Create a new user named `sysadmin`:
-
-```bash
-sudo adduser sysadmin
-```
-
-- Add the user to the sudo group:
-
-```bash
-sudo usermod -aG sudo sysadmin
-```
-
-- Login as the new user:
-
-```bash
-su - sysadmin
-```
-
-> [!WARNING]
-> The `orangepi` cannot be deleted as it is the default user. Consequently, we will lock the user, so that no one can access it.
-
-- To diasble the orangepi user, we first need to lock the user:
-
-```bash
-sudo passwd -l orangepi
-```
-
-- Then we set the expiration date to day 1 (e. g. January 2, 1970):
-
-```bash
-sudo usermod --expiredate 1 orangepi
-```
-
-- Remove the user from the sudo group:
-
-```bash
-sudo deluser orangepi sudo
-```
-
-- Edit the ssh configuration file to add the following line:
-
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-
-```plaintext
-DenyUsers orangepi
-```
-
-- Finally, reboot and reconnect to the Pi:
-
-```bash
-ssh sysadmin@192.168.3.1
-```
-
-> [!WARNING]
-> Keep a terminal open on the Pi.
+In this section, we will secure the connection to the Pi by using SSH keys and not using a password.
 
 ### SSH key setup - Client PC
 
@@ -367,24 +203,24 @@ ssh sysadmin@192.168.3.1
 
 - Back to your client computer, generate a new SSH key:
 
-> - `-f ~/.ssh/nas`: is optional and indicates the path to the key file.
-> - `-C "nas"`: is optional and adds a comment to the key.
-> - `-N "yourpassphrase"`: is optional and adds a passphrase to the key to enter when using it.
+> - `-f ~/.ssh/myhomenas`: is optional and indicates the path to the key file.
+> - `-C "myhomenas"`: is optional and adds a comment to the key.
+> - `-N "yourpassphrase"`: is optional and adds a passphrase to the key to enter when using it. See it as a second password.
 
 ```bash
-ssh-keygen -f ~/.ssh/nas -C "nas" -N "yourpassphrase"
+ssh-keygen -f ~/.ssh/myhomenas -C "myhomenas" -N "your_passphrase"
 ```
 
 - Display the publickey to copy it later:
 
 ```bash
-cat ~/.ssh/nas.pub
+cat ~/.ssh/myhomenas.pub
 ```
 
 - Add the key to your ssh-agent:
 
 ```bash
-ssh-add ~/.ssh/nas
+ssh-add ~/.ssh/myhomenas
 ```
 
 - Set the host at the top of your `~/.ssh/config` file and replace the IP address with the one of your Pi:
@@ -394,15 +230,18 @@ sudo nano ~/.ssh/config
 ```
 
 ```plaintext
-Host nas
+Host myhomenas
   User sysadmin
-  HostName 192.168.3.1
+  HostName myhomenas.local
   Port 42
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/nas
+  IdentityFile ~/.ssh/myhomenas
 ```
 
-### SSH key setup - Server
+> [!IMPORTANT]
+> If you get issue with the hostname resolving, try to replace `myhomenas.local` with the IP address of the Pi.
+
+### SSH key setup - NAS
 
 > We will add the public key to the Pi to allow the client computer to connect without a password.
 
@@ -420,7 +259,7 @@ nano ~/.ssh/authorized_keys
 ```
 
 ```plaintext
-ssh-ed25519 something_long_with_numbers_and_letters nas
+ssh-ed25519 something_long_with_numbers_and_letters myhomenas
 ```
 
 - Edit the `sshd_config` file:
@@ -446,7 +285,7 @@ sudo reboot
 - And finally, connect to the Pi using the new user:
 
 ```bash
-ssh nas
+ssh myhomenas
 ```
 
 ## IV - Configuring the environment
@@ -466,7 +305,7 @@ sudo nala install micro -y
 - Set the `micro` editor as the default editor by adding the following line to the `.zshrc` file:
 
 ```bash
-nano ~/.zshrc
+nano ~/.bashrc
 ```
 
 ```plaintext
@@ -483,26 +322,21 @@ alias sudo='sudo '
 > - `ctrl + s` to save
 > - `ctrl + q` to quit
 
-### Changing the default shell
-
-> The default shell of the OrangePi is `bash`. We will change it to `zsh` to have a more modern and customizable shell.
-
-- As `zsh` is already installed alongside `oh-my-zsh`, we will change the default shell:
+- Finally, reload the `.bashrc` file:
 
 ```bash
-chsh -s /bin/zsh
-```
-
-- Reboot to reconnect with the new shell:
-
-```bash
-sudo reboot
-ssh nas
+source ~/.bashrc
 ```
 
 ### Adding some useful tools
 
 > These are optional but can be useful to manage your server.
+
+- Install `git` to clone repositories:
+
+```bash
+sudo nala install git -y
+```
 
 - Install `libpam-tmpdir` for better management of temporary directories:
 
@@ -516,79 +350,11 @@ sudo nala install libpam-tmpdir -y
 sudo nala install needrestart -y
 ```
 
-### Adding Endlessh
-
-TODO: Not working after omv installation.
-
-> Endlessh is an SSH tarpit that very slowly sends an endless, random SSH banner. This will keep bots connected to your server for a long time, wasting their resources.
-
-- Install the `endlessh` package:
-
-```bash
-mkdir -p ~/tools
-cd ~/tools
-git clone https://github.com/skeeto/endlessh
-cd endlessh
-make
-sudo make install
-sudo cp util/endlessh.service /etc/systemd/system
-```
-
-- Enable the service:
-
-```bash
-sudo systemctl enable endlessh
-```
-
-- Update the config file:
-
-```bash
-sudo mkdir -p /etc/endlessh
-cd /etc/endlessh
-sudo nano config
-```
-
-```plaintext
-# The port on which to listen for new SSH connections.
-Port 22
-
-# The endless banner is sent one line at a time. This is the delay
-# in milliseconds between individual lines.
-Delay 10000
-
-# The length of each line is randomized. This controls the maximum
-# length of each line. Shorter lines may keep clients on for longer if
-# they give up after a certain number of bytes.
-MaxLineLength 32
-
-# Maximum number of connections to accept at a time. Connections beyond
-# this are not immediately rejected, but will wait in the queue.
-MaxClients 4096
-
-# Set the detail level for the log.
-#   0 = Quiet
-#   1 = Standard, useful log messages
-#   2 = Very noisy debugging information
-LogLevel 0
-
-# Set the family of the listening socket
-#   0 = Use IPv4 Mapped IPv6 (Both v4 and v6, default)
-#   4 = Use IPv4 only
-#   6 = Use IPv6 only
-BindFamily 0
-```
-
-- Start the service:
-
-```bash
-sudo systemctl start endlessh
-```
-
 ### Bonus - File manager
 
 > Yazi is a simple file manager that can be used to manage files on your server with a nice UI.
 
-- As we can only build from source, we install rust:
+- As we can only build from source, we install rust (and press enter to accept the default options):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -606,7 +372,7 @@ cd yazi
 - Install the dependencies:
 
 ```bash
-sudo nala install build-essential libssl-dev
+sudo nala install build-essential libssl-dev -y
 ```
 
 - Build the project:
@@ -615,10 +381,10 @@ sudo nala install build-essential libssl-dev
 cargo build --release
 ```
 
-- Finally, we add a wrapper to the `~/.zshrc` file:
+- Finally, we add a wrapper to the `~/.bashrc` file:
 
 ```bash
-nano ~/.zshrc
+nano ~/.bashrc
 ```
 
 ```plaintext
