@@ -105,7 +105,7 @@ Software:
 ### Get your SBC ready
 
 - **Orange Pi 5 Plus** -> [here](./parts/orangepi.md)
-- **Raspberry Pi 5** -> [here](./parts/raspberrypi.md) WIP
+- **Raspberry Pi 5** -> [here](./parts/raspberrypi.md)
 
 ### Setup OMV
 
