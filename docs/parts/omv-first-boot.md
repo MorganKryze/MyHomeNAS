@@ -1,6 +1,31 @@
 # OpenMediaVault
 
-## Installation on the Pi
+> In this section, we will install OpenMediaVault on the Pi to have a nice web interface to manage the NAS.
+
+- **Want to go back to the index page?** [click here](../index.md).
+
+## Table of Contents
+
+- [OpenMediaVault](#openmediavault)
+  - [Table of Contents](#table-of-contents)
+  - [I - Installation on the Pi](#i---installation-on-the-pi)
+    - [Install OpenMediaVault on the Pi](#install-openmediavault-on-the-pi)
+    - [First login](#first-login)
+  - [II - Networking](#ii---networking)
+    - [Firewall configuration](#firewall-configuration)
+      - [Allow your client PC](#allow-your-client-pc)
+      - [Allow DNS Traffic](#allow-dns-traffic)
+      - [Allow ICMP Traffic](#allow-icmp-traffic)
+      - [Block access to other VLANs](#block-access-to-other-vlans)
+      - [Allow Cloudflare traffic](#allow-cloudflare-traffic)
+    - [Allow HTTP and HTTPS traffic](#allow-http-and-https-traffic)
+      - [Default rules](#default-rules)
+      - [IPv6 rules](#ipv6-rules)
+    - [Create a backup](#create-a-backup)
+  - [Next step](#next-step)
+  - [Sources](#sources)
+
+## I - Installation on the Pi
 
 In this section, we will install OpenMediaVault on the Pi to have a nice web interface to manage the NAS.
 
@@ -26,7 +51,7 @@ sudo reboot
 wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
 ```
 
-- The installation script will automatically reboot. This time, do not connect to the Pi, but go to your browser and type the IP address of the Pi. (ex: `http://192.168.3.1`)
+- The installation script will automatically reboot. This time, do not connect to the Pi, but go to your browser and type the IP address of the Pi. (ex: `http://192.168.1.x`)
 
 > [!WARNING]
 > The default page is not secure (e. g. no HTTPS). Your browser may block the connection. You can bypass this by clicking on `Advanced` and then `Proceed to the IP address` or find another browser that does not block the connection.
@@ -39,49 +64,49 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 - Once logged in, I strongly recommend you to change the default password by clicking to your profile and then `Change Password` (choose a strong password, at least 30 characters and store it in your password manager).
 
-![Password](./assets/password.png)
+![Password](../assets/img/omv/password.png)
 
 - You will be prompted to change the widgets on your dashboard, here is my selection:
 
-![Widgets](./assets/widgets.png)
+![Widgets](../assets/img/omv/widgets.png)
 
 - As we saw earlier, the default protocol is HTTP. We will change it to HTTPS to secure the connection by creating self-signed certificates in the `Workbench` section. I woumd also recommend to enforce the use of HTTPS by checking the `Force SSL/TLS` box.
 
-![Certificates](./assets/certificates.png)
+![Certificates](../assets/img/omv/certificates.png)
 
 - Now in `Date & Time`, you may want to change the timezone to your location:
 
-![Timezone](./assets/timezone.png)
+![Timezone](../assets/img/omv/timezone.png)
 
 - It could also prove useful to configure an email client that would notify you on update or issues with the NAS. You can find the settings in the `Notifications` > `Settings` (client) & `Events` (selection) sections.
 
-![Email](./assets/email.png)
+![Email](../assets/img/omv/email.png)
 
 - Under the `Power Management` > `Scheduled Tasks` section, you can configure the NAS to reboot everyday at 3am for example.
 
-![Reboot](./assets/reboot.png)
+![Reboot](../assets/img/omv/reboot.png)
 
 - In the `Update Management` section, be sure to stay up-to-date with the latest updates. I would recomment checking the `Community-maintained updates` box.
 
-![Updates](./assets/updates.png)
+![Updates](../assets/img/omv/updates.png)
 
-![Settings](./assets/settings.png)
+![Settings](../assets/img/omv/settings.png)
 
 - We will explore the `Plugins` section later.
 
-- In the `Network` > `General` ensure that the `Hostname` is set to `nas`.
+- In the `Network` > `General` ensure that the `Hostname` is set to `nas` or `myhomenas`.
 
-![Network](./assets/network.png)
+![Network](../assets/img/omv/network.png)
 
 - In the `Network` > `Interfaces` section, select the interface that is connected by ethernet and fill the `DNS servers` with `1.1.1.1,1.0.0.1` and the `Search domain` with `localdomain`.
 
-![Interfaces](./assets/interfaces.png)
+![Interfaces](../assets/img/omv/interfaces.png)
 
 - Finally, go to `Services` > `SSH` and update the port to `42`, then disable `root login` and `password authentication`.
 
-![SSH](./assets/ssh.png)
+![SSH](../assets/img/omv/ssh.png)
 
-## VI - Networking
+## II - Networking
 
 ### Firewall configuration
 
@@ -416,22 +441,9 @@ gunzip backup-20240101-000000.img.gz
 
 - To restore the backup, you will need to flash the image to the SD card or a new one using [Balena Etcher](https://etcher.balena.io/) as we did in the first section but use this image instead.
 
-## VII - Storage
+## Next step
 
-TODO
-
-- Once connected, check that all drives connected appear in the `Storage` > `Disks` section.
-- Go to the smart section, set to 1800, standby and disabled.
-- Go to each disk, edit and enable monitoring.
-- Install zfs plugin.
-
-## VIII - Containers & Cloudflare tunnel
-
-TODO
-
-clamav
-
-Fail2ban
+You may now proceed to the [OpenMediaVault](./omv-storage.md) storage management section.
 
 ## Sources
 
