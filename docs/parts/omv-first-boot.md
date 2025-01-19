@@ -1,12 +1,12 @@
-# OpenMediaVault
+# OpenMediaVault Installation
 
-> In this section, we will install OpenMediaVault on the Pi to have a nice web interface to manage the NAS.
+> This guide will help you to set up a NAS using OpenMediaVault on a Raspberry Pi.
 
 - **Want to go back to the index page?** [click here](../index.md).
 
 ## Table of Contents
 
-- [OpenMediaVault](#openmediavault)
+- [OpenMediaVault Installation](#openmediavault-installation)
   - [Table of Contents](#table-of-contents)
   - [I - Installation on the Pi](#i---installation-on-the-pi)
     - [Install OpenMediaVault on the Pi](#install-openmediavault-on-the-pi)
@@ -51,7 +51,7 @@ sudo reboot
 wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
 ```
 
-- The installation script will automatically reboot. This time, do not connect to the Pi, but go to your browser and type the IP address of the Pi. (ex: `http://192.168.1.x`)
+- The installation script will automatically reboot. This time, do not connect to the Pi, but go to your browser and type the IP address of the Pi. (ex: `http://192.168.1.x` or [`http://myhomenas.local`](http://myhomenas.local))
 
 > [!WARNING]
 > The default page is not secure (e. g. no HTTPS). Your browser may block the connection. You can bypass this by clicking on `Advanced` and then `Proceed to the IP address` or find another browser that does not block the connection.
