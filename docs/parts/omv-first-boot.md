@@ -145,6 +145,12 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 - We will allow DNS traffic to resolve domain names.
 
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source Port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS`
+
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
 > - Destination Port: `53`
@@ -343,6 +349,12 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > We will now add similar rules for the IPv6 channel.
 
 - Let's start by allowing the DNS traffic:
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS`
 
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
