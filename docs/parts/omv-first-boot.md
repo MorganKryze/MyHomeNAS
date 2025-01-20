@@ -151,12 +151,6 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Protocol: `UDP`
 > - Tags: `DNS`
 
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination Port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
-
 #### Allow ICMP Traffic
 
 - We will allow ICMP traffic to ping the Pi.
@@ -298,12 +292,6 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 ### Allow HTTP and HTTPS traffic
 
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination Port: `443`
-> - Protocol: `TCP`
-> - Tags: `HTTPS`
-
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source Port: `443`
@@ -312,13 +300,19 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
-> - Destination Port: `80`
+> - Destination Port: `443`
 > - Protocol: `TCP`
-> - Tags: `HTTP`
+> - Tags: `HTTPS`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source Port: `80`
+> - Protocol: `TCP`
+> - Tags: `HTTP`
+
+> - Direction: `OUTPUT`
+> - Action: `ACCEPT`
+> - Destination Port: `80`
 > - Protocol: `TCP`
 > - Tags: `HTTP`
 
@@ -406,6 +400,12 @@ DATE=$(date +"%Y%m%d-%H%M%S")
 
 # Backup
 sudo dd if=/dev/mmcblk0 bs=1M | gzip > $BACKUP_DIR/backup-$DATE.img.gz
+
+# Calculate SHA-256 hash
+SHA256=$(sha256sum "$BACKUP_DIR/$BACKUP_FILE" | awk '{print $1}')
+
+# Print SHA-256 hash
+echo "SHA-256 hash of $BACKUP_FILE: $SHA256"
 ```
 
 - Make the script executable:
@@ -414,7 +414,7 @@ sudo dd if=/dev/mmcblk0 bs=1M | gzip > $BACKUP_DIR/backup-$DATE.img.gz
 sudo chmod +x /backup/backup.sh
 ```
 
-- And we execute it (it may take a while):
+- And we execute it (it will take a while):
 
 ```bash
 sudo ./backup.sh
@@ -430,7 +430,7 @@ ls -l /backup
 
 ```bash
 cd ~/Downloads
-scp nas:/backup/backup-20240101-000000.img.gz .
+scp myhomenas:/backup/backup-20240101-000000.img.gz .
 ```
 
 - You may decompress the backup with the following command:
@@ -439,7 +439,7 @@ scp nas:/backup/backup-20240101-000000.img.gz .
 gunzip backup-20240101-000000.img.gz
 ```
 
-- To restore the backup, you will need to flash the image to the SD card or a new one using [Balena Etcher](https://etcher.balena.io/) as we did in the first section but use this image instead.
+- To restore the backup, you will need to flash the image to a new SD card using [Balena Etcher](https://etcher.balena.io/) as we did in the first section but use this image instead. If everything goes well, you should be able to boot the Pi with the new SD card and have the same configuration as before.
 
 ## Next step
 
