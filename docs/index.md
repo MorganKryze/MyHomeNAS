@@ -110,7 +110,7 @@ Software:
 ### Setup OMV
 
 - **First boot** -> [here](./parts/omv-first-boot.md)
-- **Storage** -> [here](./parts/omv-storage.md) WIP
+- **Storage** -> [here](./parts/omv-storage.md)
 - **Docker** -> [here](./parts/omv-docker.md) WIP
 
 [^1]: [Hardware Haven](https://www.youtube.com/@HardwareHaven) did a great video on the subject, you can find it [here](https://www.youtube.com/watch?v=ykhaXo6m-04).
