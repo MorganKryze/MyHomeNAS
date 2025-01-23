@@ -50,17 +50,21 @@
 
 ### Second scenario: 3 HDD
 
-> coming soon.
+> Coming soon...
 
 ## III - Shared folders
 
 > This section will tackle your first shared folder creation.
 
-- Go to `Storage` > `Shared Folders` and click on `Add`. Fill the fields as follows:
+- Go to `Storage` > `Shared Folders` and click on `Add` and create a new shared folder named `containers_config`. When selecting the file system, choose the one you created earlier, not the boot drive.
 
 ![Shared folder creation](../assets/img/omv/shared-folder.png)
 
 - Hit Save and Apply pending configuration changes.
+
+- Then create 2 more shared folders: `containers_data` and `containers_backups`.
+
+![Shared folder creation](../assets/img/omv/shared-folder-list.png)
 
 ## Next step
 
@@ -69,4 +73,4 @@ You may now proceed to the [OMV docker & Cloudflare tunnel](./omv-docker.md) set
 ---
 
 Last update: Jan. 2025
-Created: Oct. 2024
+Created: Jan. 2025
