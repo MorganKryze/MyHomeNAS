@@ -19,13 +19,13 @@
 
 > The tool we will need will be docker composer to be precise. A declarative way to define and run multi-container Docker applications. Some examples will be given to you later on.
 
-- Go to the `System` tab and click on `Plugins` in the left sidebar and look for `openmediavault-compose` and click on install.
-
-![Docker](../assets/img/omv/compose-install.png)
-
 - Then, go to the `omv-extras` tab and enable `Docker repo`.
 
 ![Docker](../assets/img/omv/docker-repo.png)
+
+- Go to the `System` tab and click on `Plugins` in the left sidebar and look for `openmediavault-compose` and click on install.
+
+![Docker](../assets/img/omv/compose-install.png)
 
 - Once installed, a new category should have been created in the `Services` tab and click on `Compose` in the left sidebar.
 
