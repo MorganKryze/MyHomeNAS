@@ -66,6 +66,14 @@
 
 ![Shared folder creation](../assets/img/omv/shared-folder-list.png)
 
+- Then go to `Users` > `Groups`:
+
+![Groups](../assets/img/omv/shared-folders-groups.png)
+
+- Finally, update `shared folders permissions` to `read/write` for the `sysamdin` group.
+
+![Permissions](../assets/img/omv/shared-folders-permissions.png)
+
 ## Next step
 
 You may now proceed to the [OMV docker & Cloudflare tunnel](./omv-docker.md) setup.
