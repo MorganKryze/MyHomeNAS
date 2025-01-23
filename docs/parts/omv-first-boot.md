@@ -21,6 +21,7 @@
     - [Allow HTTP and HTTPS traffic](#allow-http-and-https-traffic)
       - [Default rules](#default-rules)
       - [IPv6 rules](#ipv6-rules)
+    - [Installing Fail2Ban](#installing-fail2ban)
     - [Create a backup](#create-a-backup)
   - [Next step](#next-step)
   - [Sources](#sources)
@@ -85,6 +86,10 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 - Under the `Power Management` > `Scheduled Tasks` section, you can configure the NAS to reboot everyday at 3am for example.
 
 ![Reboot](../assets/img/omv/reboot.png)
+
+- In the `Monitoring` section, enable the setting. This will allow you to monitor the CPU, memory, and network usage of the Pi later on.
+
+![Monitoring](../assets/img/omv/monitoring.png)
 
 - In the `Update Management` section, be sure to stay up-to-date with the latest updates. I would recomment checking the `Community-maintained updates` box.
 
@@ -385,6 +390,18 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Action: `REJECT`
 > - Protocol: `All`
 > - Tags: `Default deny`
+
+### Installing Fail2Ban
+
+> Fail2Ban is a service that scans log files and bans IPs that show malicious signs. It is useful to protect your server from brute-force attacks.
+
+- We install the program from the `Plugins` section.
+
+![Fail2Ban](../assets/img/omv/fail2ban-install.png)
+
+- Once installed, we go to the `Services` > `Fail2Ban` section and enable the service. Additionally, you may add the IP address of your **Client PC** to the `Ignore IP` list and an email address to receive notifications if you configured the email client earlier. Leave blank if to disable these settings.
+
+![Fail2Ban](../assets/img/omv/fail2ban-enable.png)
 
 ### Create a backup
 
