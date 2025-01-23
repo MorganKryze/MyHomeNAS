@@ -14,15 +14,14 @@
   - [II - Basic configuration](#ii---basic-configuration)
     - [First ssh connection](#first-ssh-connection)
     - [Changing the locale](#changing-the-locale)
-    - [Changing the package repositories](#changing-the-package-repositories)
     - [Updating DNS](#updating-dns)
+    - [Changing the package repositories](#changing-the-package-repositories)
   - [III - Securing the Pi connection](#iii---securing-the-pi-connection)
     - [SSH key setup - Client PC](#ssh-key-setup---client-pc)
     - [SSH key setup - NAS](#ssh-key-setup---nas)
   - [IV - Configuring the environment](#iv---configuring-the-environment)
     - [Editor](#editor)
     - [Adding some useful tools](#adding-some-useful-tools)
-    - [Bonus - File manager](#bonus---file-manager)
   - [Next step](#next-step)
   - [Sources](#sources)
 
@@ -124,6 +123,28 @@ sudo update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 sudo reboot
 ```
 
+### Updating DNS
+
+> Cloudflare's DNS is known to be faster and more secure than the default DNS servers.
+
+- Update the DNS server to use Cloudflare's DNS:
+
+```bash
+sudo nano /etc/resolv.conf
+```
+
+```plaintext
+search localdomain
+nameserver 1.1.1.1
+nameserver 1.0.0.1
+```
+
+- Test the DNS resolution:
+
+```bash
+ping google.com
+```
+
 ### Changing the package repositories
 
 > The default package repositories may not be up-to-date and target chinese servers. We will change them to use the official Debian repositories.
@@ -169,28 +190,6 @@ sudo nala upgrade -y
 
 ```bash
 sudo reboot
-```
-
-### Updating DNS
-
-> Cloudflare's DNS is known to be faster and more secure than the default DNS servers.
-
-- Update the DNS server to use Cloudflare's DNS:
-
-```bash
-sudo nano /etc/resolv.conf
-```
-
-```plaintext
-search localdomain
-nameserver 1.1.1.1
-nameserver 1.0.0.1
-```
-
-- Test the DNS resolution:
-
-```bash
-ping google.com
 ```
 
 ## III - Securing the Pi connection
@@ -337,59 +336,6 @@ source ~/.bashrc
 ```bash
 sudo nala install git -y
 ```
-
-### Bonus - File manager
-
-> Yazi is a simple file manager that can be used to manage files on your server with a nice UI.
-
-- As we can only build from source, we install rust (and press enter to accept the default options):
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source $HOME/.cargo/env
-```
-
-- Install the `yazi` package:
-
-```bash
-cd ~/tools
-git clone https://github.com/sxyazi/yazi.git
-cd yazi
-```
-
-- Install the dependencies:
-
-```bash
-sudo nala install build-essential libssl-dev -y
-```
-
-- Build the project:
-
-```bash
-cargo build --release
-```
-
-- Finally, we add a wrapper to the `~/.bashrc` file:
-
-```bash
-nano ~/.bashrc
-```
-
-```plaintext
-export PATH="$HOME/tools/yazi/target/release:$PATH"
-
-# Wrapper for the yazi file manager
-function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-    yazi "$@" --cwd-file="$tmp"
-    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        builtin cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
-}
-```
-
-After rebooting, you may now use the `y` command to open the file manager (you may exit the file manager by pressing `q`).
 
 ## Next step
 

@@ -429,12 +429,6 @@ DATE=$(date +"%Y%m%d-%H%M%S")
 
 # Backup
 sudo dd if=/dev/mmcblk0 bs=1M | gzip > $BACKUP_DIR/backup-$DATE.img.gz
-
-# Calculate SHA-256 hash
-SHA256=$(sha256sum "$BACKUP_DIR/$BACKUP_FILE" | awk '{print $1}')
-
-# Print SHA-256 hash
-echo "SHA-256 hash of $BACKUP_FILE: $SHA256"
 ```
 
 - Make the script executable:
