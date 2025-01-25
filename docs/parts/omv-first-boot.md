@@ -22,6 +22,7 @@
       - [Default rules](#default-rules)
       - [IPv6 rules](#ipv6-rules)
     - [Installing Fail2Ban](#installing-fail2ban)
+  - [III - Finishing process](#iii---finishing-process)
     - [Create a backup](#create-a-backup)
   - [Next step](#next-step)
   - [Sources](#sources)
@@ -37,13 +38,7 @@ In this section, we will install OpenMediaVault on the Pi to have a nice web int
 - First, we will run the pre-installation script, and fill the password as requested:
 
 ```bash
-wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/preinstall | sudo bash
-```
-
-- Once the script is done, we reboot the Pi:
-
-```bash
-sudo reboot
+wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/preinstall | sudo bash && sudo reboot
 ```
 
 - After the reboot, we run the installation script and provide the password, this may take a while depending on your internet connection:
@@ -403,6 +398,8 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 ![Fail2Ban](../assets/img/omv/fail2ban-enable.png)
 
+## III - Finishing process
+
 ### Create a backup
 
 > Before proceeding to the next steps, we will now create a backup. This will help you to restore your system in case of a failure up to this point.
@@ -428,7 +425,7 @@ BACKUP_DIR="/backup"
 DATE=$(date +"%Y%m%d-%H%M%S")
 
 # Backup
-sudo dd if=/dev/mmcblk0 bs=1M | gzip > $BACKUP_DIR/backup-$DATE.img.gz
+sudo dd if=/dev/mmcblk0 bs=4M status=progress | gzip > $BACKUP_DIR/backup-$DATE.img.gz
 ```
 
 - Make the script executable:

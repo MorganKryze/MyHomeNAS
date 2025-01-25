@@ -45,15 +45,71 @@
 
 ![Docker](../assets/img/omv/compose-settings.png)
 
--
-
 ## II - Some useful containers
 
-- LibreOffice
-- Duplicati
-- Calibre web
+> Here are some examples of containers you can install using docker-compose to get you started. You can find more on the [Linuxserver fleet](https://fleet.linuxserver.io/).
+
+- [Stirling pdf](https://www.stirlingpdf.com/): a large pdf tool to convert, merge, split, and compress pdf files.
+
+File: (mind to change the paths to your own)
+
+```yaml
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest-fat
+    ports:
+      - '8888:8080'
+    volumes:
+      - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/trainingData:/usr/share/tessdata # SKIP_BACKUP
+      - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/extraConfigs:/configs # SKIP_BACKUP
+      - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/customFiles:/customFiles/ # SKIP_BACKUP
+      - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/logs:/logs/ # SKIP_BACKUP
+      - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/pipeline:/pipeline/ # SKIP_BACKUP
+```
+
+Environment:
+
+```plaintext
+DOCKER_ENABLE_SECURITY=false
+LANGS=en_GB
+```
+
+![Example](../assets/img/omv/docker-compose-file.png)
+
+And try to connect to the container by going to `http://your-ip:8888`.
+
+- Get the full list of my containers [here](./containers.md).
 
 ## III - Exposing your services to the web
+
+> We will use Cloudflare tunnels to expose our services to the web. This will allow us to access our services from anywhere in the world. You will need to have a domain name and a Cloudflare account.
+
+- Assuming that you have a domain name and a Cloudflare account, go to the `Network` tab and click on `Tunnels` in the left sidebar.
+- Then `Create a new tunnel` and fill in the form with the following information:
+
+  - `Type`: `Cloudflared`
+  - `Name`: `NAS-RPI`
+
+- When prompted to install a connector, select `Docker` and copy the command. Then extract the token in your clipboard.
+- Go back to the `Compose` tab and create a new file:
+
+File:
+
+```yaml
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+```
+
+Environment: (mind to change the token)
+
+```plaintext
+TUNNEL_TOKEN=...
+```
+
+- Save, and UP the container. You should see the tunnel running in the `Tunnels` tab.
 
 ## IV - Adding Security layers
 
