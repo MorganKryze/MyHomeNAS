@@ -108,7 +108,7 @@ services:
 > [!IMPORTANT]
 > Right after logging in with `admin` and `admin`, I strongly recommend **changing the password**. Go to `Settings` and then `User Management` and click on the `admin` user to change the password.
 
-- Get the full list of my containers [here](./containers.md).
+- Get the list of my containers [here](./containers.md).
 
 ## III - Exposing your services to the web
 
@@ -402,4 +402,5 @@ Thank you for following these guides. I hope you found them useful. If you have 
 ---
 
 Last update: Jan. 2025
+
 Created: Jan. 2025
