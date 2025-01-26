@@ -22,6 +22,7 @@
       - [Default rules](#default-rules)
       - [IPv6 rules](#ipv6-rules)
     - [Installing Fail2Ban](#installing-fail2ban)
+  - [Installing ClamAV](#installing-clamav)
   - [III - Finishing process](#iii---finishing-process)
     - [Create a backup](#create-a-backup)
   - [Next step](#next-step)
@@ -397,6 +398,21 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 - Once installed, we go to the `Services` > `Fail2Ban` section and enable the service. Additionally, you may add the IP address of your **Client PC** to the `Ignore IP` list and an email address to receive notifications if you configured the email client earlier. Leave blank if to disable these settings.
 
 ![Fail2Ban](../assets/img/omv/fail2ban-enable.png)
+
+## Installing ClamAV
+
+> ClamAV is an open-source antivirus engine for detecting trojans, viruses, malware, and other malicious threats. We will install it to scan files uploaded to the NAS.
+
+- We start by setting up a shared folder for the `quarantine` section in the `Storage` > `Shared Folders` section. I recommend choosing the default file system (not the on containing your data) and setting the `Permissions` to `read/write` for the Administrator only.
+- We install the program from the `Plugins` section: `openmediavault-clamav`.
+- Once installed, we go to the `Services` > `Antivirus` > `Settings` sectio, then:
+  - Enable the service.
+  - Set the `Quarantine directory` to the shared folder we created earlier.
+  - Toggle `Detect broken executables` and `Detect broken media files` to `yes`.
+  - Let the other settings to their default values.
+- Finally, create scans for each of your shared folders using these settings:
+
+![ClamAV](../assets/img/omv/clamav.png)
 
 ## III - Finishing process
 
