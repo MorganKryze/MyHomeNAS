@@ -10,8 +10,9 @@
   - [Table of Contents](#table-of-contents)
   - [I - Install docker](#i---install-docker)
   - [II - Some useful containers](#ii---some-useful-containers)
-  - [III - Exposing your services to the web](#iii---exposing-your-services-to-the-web)
-  - [IV - Adding a security layer](#iv---adding-a-security-layer)
+  - [III - Backup schedule](#iii---backup-schedule)
+  - [IV - Exposing your services to the web](#iv---exposing-your-services-to-the-web)
+  - [V - Adding a security layer](#v---adding-a-security-layer)
     - [Install Wazuh](#install-wazuh)
     - [Changing passwords](#changing-passwords)
   - [Conclusion](#conclusion)
@@ -110,7 +111,18 @@ services:
 
 - Get the list of my containers [here](./containers.md).
 
-## III - Exposing your services to the web
+## III - Backup schedule
+
+> Now that our services are up and running, we will setup a backup schedule for our containers.
+
+- Go to the `Compose` > `Schedule` tab and click on `Add a schedule`. Fill in the form with the following information:
+  - `Enabled`: `Yes`
+  - `Filter`: `*`
+  - `Schedule`: `Weekly`
+  - `Action type`: `Backup`
+  - `Send command output via email`: `Yes`
+
+## IV - Exposing your services to the web
 
 > We will use Cloudflare tunnels to expose our services to the web. This will allow us to access our services from anywhere in the world. You will need to have a domain name and a Cloudflare account.
 
@@ -155,7 +167,7 @@ Refs:
 - <https://github.com/wazuh/wazuh-docker/issues/1306>
 - <https://github.com/wazuh/wazuh-docker/issues/924>
 
-## IV - Adding a security layer
+## V - Adding a security layer
 
 > Wazuh is an open-source security monitoring platform that can be used to monitor your containers and your NAS and your devices.
 
