@@ -13,6 +13,7 @@
     - [First scenario: 2 portable HDD](#first-scenario-2-portable-hdd)
     - [Second scenario: 3 HDD](#second-scenario-3-hdd)
   - [III - Shared folders](#iii---shared-folders)
+  - [IV - Samba shares](#iv---samba-shares)
   - [Next step](#next-step)
 
 ## I - Checkup and monitoring
@@ -73,6 +74,26 @@
 - Finally, update `shared folders permissions` to `read/write` for the `sysamdin` group.
 
 ![Permissions](../assets/img/omv/shared-folders-permissions.png)
+
+## IV - Samba shares
+
+> Samba shares will allow you to access your shared folders from Windows, macOS, and Linux remotely.
+
+- First, I would recommend creating a new user that will only be used for Samba shares. Go to `Users` > `User` and click on `Add` to create a new user. Be sure to add the user to the `sysadmin` and `samabashare` groups.
+
+- Go to `Services` > `SMB/CIFS` and enable the service.
+
+- Then go to `Shares` and click on `Add` to create a new share. Fill the fields as follows:
+- `Shared folder`: select the shared folder you want to share.
+- `Comment`: a description of the share.
+- `Public`: no.
+- `Browsable`: yes.
+- `Recycle bin`: yes.
+- `Maximal file size`: Unrestricted.
+- `Retention period`: 30 days.
+
+- Hit save, and apply pending configuration changes.
+- Then from a computer on the same network, you should be able to access the shared folders by accessing the `smb://<OMV_IP>/your_shared_folder` or `smb://myhomenas.local/your_shared_folder` address. That might differ from one OS to another, please check online.
 
 ## Next step
 

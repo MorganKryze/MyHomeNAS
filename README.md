@@ -11,7 +11,7 @@ The goal of this project is to provide a "template" for you to get inspiration a
 
 ## Project
 
-The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software. 
+The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software.
 
 Start with the -> [`index`](./docs/index.md) <- to discover everything!
 
