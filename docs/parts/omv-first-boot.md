@@ -14,11 +14,10 @@
   - [II - Networking](#ii---networking)
     - [Firewall configuration](#firewall-configuration)
       - [Allow your client PC](#allow-your-client-pc)
-      - [Allow DNS Traffic](#allow-dns-traffic)
       - [Allow ICMP Traffic](#allow-icmp-traffic)
+      - [Allow DNS Traffic](#allow-dns-traffic)
       - [Block access to other VLANs](#block-access-to-other-vlans)
       - [Allow Cloudflare traffic](#allow-cloudflare-traffic)
-    - [Allow HTTP and HTTPS traffic](#allow-http-and-https-traffic)
       - [Default rules](#default-rules)
       - [IPv6 rules](#ipv6-rules)
     - [Installing Fail2Ban](#installing-fail2ban)
@@ -99,7 +98,7 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 ![Network](../assets/img/omv/network.png)
 
-- In the `Network` > `Interfaces` section, select the interface that is connected by ethernet and fill the `DNS servers` with `1.1.1.1,1.0.0.1` and the `Search domain` with `localdomain`.
+- In the `Network` > `Interfaces` section, select the interface that is connected by ethernet and fill the `DNS servers` with `9.9.9.9,149.112.112.112` and the `Search domain` with `localdomain`.
 
 ![Interfaces](../assets/img/omv/interfaces.png)
 
@@ -120,43 +119,19 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 #### Allow your client PC
 
-- We will allow the IP address of your **Client PC** to connect to the Pi to manage it considering that your IP is `192.168.2.1`.
+- We will allow the IP address of your **Client PC** to connect to the Pi to manage it considering that your IP is `192.168.1.51`.
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
-> - Source: `192.168.2.1`
+> - Source: `192.168.1.51`
 > - Protocol: `All`
 > - Tags: `Admin`
 
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
-> - Destination: `192.168.2.1`
+> - Destination: `192.168.1.51`
 > - Protocol: `All`
 > - Tags: `Admin`
-
-- (Optional) We can also allow logging from the ssh client (on the custom port `42`).
-
-> - Direction: `INPUT`
-> - Action: `LOG`
-> - Destination Port: `42`
-> - Protocol: `TCP`
-> - Tags: `Logging`
-
-#### Allow DNS Traffic
-
-- We will allow DNS traffic to resolve domain names.
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source Port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
-
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination Port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
 
 #### Allow ICMP Traffic
 
@@ -171,6 +146,24 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Action: `ACCEPT`
 > - Protocol: `ICMP`
 > - Tags: `Ping`
+
+#### Allow DNS Traffic
+
+- We will allow DNS traffic to resolve domain names.(Here we use Cloudflare's DNS servers but you may update it to your preference).
+
+> - Direction: `OUTPUT`
+> - Action: `ACCEPT`
+> - Destination: `9.9.9.9`
+> - Destination Port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS`
+
+> - Direction: `OUTPUT`
+> - Action: `ACCEPT`
+> - Destination: `149.112.112.112`
+> - Destination Port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS`
 
 #### Block access to other VLANs
 
@@ -297,32 +290,6 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
-### Allow HTTP and HTTPS traffic
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source Port: `443`
-> - Protocol: `TCP`
-> - Tags: `HTTPS`
-
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination Port: `443`
-> - Protocol: `TCP`
-> - Tags: `HTTPS`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source Port: `80`
-> - Protocol: `TCP`
-> - Tags: `HTTP`
-
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination Port: `80`
-> - Protocol: `TCP`
-> - Tags: `HTTP`
-
 #### Default rules
 
 - Allow loopback traffic:
@@ -351,29 +318,70 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 - Let's start by allowing the DNS traffic:
 
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
-
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
+> - Destination: `2620:fe::fe`
 > - Destination port: `53`
 > - Protocol: `UDP`
 > - Tags: `DNS`
 
-- Allow ICMPv6 traffic:
+> - Direction: `OUTPUT`
+> - Action: `ACCEPT`
+> - Destination: `2620:fe::9`
+> - Destination port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS`
+
+- Allow Cloudflare traffic:
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
-> - Protocol: `ICMPv6`
-> - Tags: `Ping`
+> - Source: `2400:cb00::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
 
-> - Direction: `OUTPUT`
+> - Direction: `INPUT`
 > - Action: `ACCEPT`
-> - Protocol: `ICMPv6`
-> - Tags: `Ping`
+> - Source: `2606:4700::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `2803:f800::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `2405:b500::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `2405:8100::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `2a06:98c0::/29`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `2c0f:f248::/32`
+> - Source Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
 
 - Finally, block unwanted traffic:
 
@@ -383,9 +391,9 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Tags: `Default deny`
 
 > - Direction: `OUTPUT`
-> - Action: `REJECT`
+> - Action: `Accept`
 > - Protocol: `All`
-> - Tags: `Default deny`
+> - Tags: `Default allow`
 
 ### Installing Fail2Ban
 
@@ -485,8 +493,11 @@ You may now proceed to the [OpenMediaVault](./omv-storage.md) storage management
 
 Here is the most exhaustive I could make of the sources I used to write this guide:
 
-- [Wiki for the installation on Raspberry Pi and affiliates](https://wiki.omv-extras.org/doku.php?id=omv7:raspberry_pi_install) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation
-- [Wiki for the walkthrough of the setup on the WebGUI](https://wiki.omv-extras.org/doku.php?id=omv7:new_user_guide#web_console_login) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation
+- [Wiki for the installation on Raspberry Pi and affiliates](https://wiki.omv-extras.org/doku.php?id=omv7:raspberry_pi_install) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation.
+- [Wiki for the walkthrough of the setup on the WebGUI](https://wiki.omv-extras.org/doku.php?id=omv7:new_user_guide#web_console_login) from the [omv-extras](https://wiki.omv-extras.org/doku.php?id=start) documentation.
+- Quad9 DNS servers from [Quad9](https://www.quad9.net/).
+- Cloudflare IP ranges from [Cloudflare](https://www.cloudflare.com/ips/).
+- Cloudflare [ports list](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deploy-tunnels/tunnel-with-firewall/) from their zero trust network documentation.
 
 ---
 
