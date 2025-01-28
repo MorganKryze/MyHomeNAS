@@ -316,22 +316,6 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 
 > We will now add similar rules for the IPv6 channel.
 
-- Let's start by allowing the DNS traffic:
-
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination: `2620:fe::fe`
-> - Destination port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
-
-> - Direction: `OUTPUT`
-> - Action: `ACCEPT`
-> - Destination: `2620:fe::9`
-> - Destination port: `53`
-> - Protocol: `UDP`
-> - Tags: `DNS`
-
 - Allow Cloudflare traffic:
 
 > - Direction: `INPUT`

@@ -135,8 +135,8 @@ sudo nano /etc/resolv.conf
 
 ```plaintext
 search localdomain
-nameserver 1.1.1.1
-nameserver 1.0.0.1
+nameserver 9.9.9.9
+nameserver 149.112.112.112
 ```
 
 - Test the DNS resolution:
