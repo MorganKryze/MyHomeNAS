@@ -14,9 +14,9 @@
   - [II - Networking](#ii---networking)
     - [Firewall configuration](#firewall-configuration)
       - [Allow your client PC](#allow-your-client-pc)
-      - [Allow ICMP Traffic](#allow-icmp-traffic)
+      - [Block access to other devices](#block-access-to-other-devices)
       - [Allow DNS Traffic](#allow-dns-traffic)
-      - [Block access to other VLANs](#block-access-to-other-vlans)
+      - [Allow ICMP Traffic \& Loopback](#allow-icmp-traffic--loopback)
       - [Allow Cloudflare traffic](#allow-cloudflare-traffic)
       - [Default rules](#default-rules)
       - [IPv6 rules](#ipv6-rules)
@@ -133,23 +133,39 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Protocol: `All`
 > - Tags: `Admin`
 
-#### Allow ICMP Traffic
-
-- We will allow ICMP traffic to ping the Pi.
+- Here we allow the Pi to connect to itself assuming the IP is `192.168.1.101`.
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
-> - Protocol: `ICMP`
-> - Tags: `Ping`
+> - Source: `192.168.1.101`
+> - Protocol: `All`
+> - Tags: `Self`
 
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
-> - Protocol: `ICMP`
-> - Tags: `Ping`
+> - Destination: `192.168.1.101`
+> - Protocol: `All`
+> - Tags: `Self`
+
+#### Block access to other devices
+
+- Consider setting the Pi to block access to other devices on the network.
+
+> - Direction: `INPUT`
+> - Action: `REJECT`
+> - Source: `192.168.0.0/16`
+> - Protocol: `All`
+> - Tags: `Isolement`
+
+> - Direction: `OUTPUT`
+> - Action: `REJECT`
+> - Destination: `192.168.0.0/16`
+> - Protocol: `All`
+> - Tags: `Isolement`
 
 #### Allow DNS Traffic
 
-- We will allow DNS traffic to resolve domain names.(Here we use Cloudflare's DNS servers but you may update it to your preference).
+- We will allow DNS traffic to resolve domain names.
 
 > - Direction: `OUTPUT`
 > - Action: `ACCEPT`
@@ -165,132 +181,40 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Protocol: `UDP`
 > - Tags: `DNS`
 
-#### Block access to other VLANs
-
-- Consider setting the Pi on a separate VLAN, we will block access to and from other devices on the network.
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `9.9.9.9`
+> - Source Port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS Response`
 
 > - Direction: `INPUT`
-> - Action: `REJECT`
-> - Source: `192.168.1.0/24`
-> - Protocol: `All`
-> - Tags: `VLAN`
+> - Action: `ACCEPT`
+> - Source: `149.112.112.112`
+> - Source Port: `53`
+> - Protocol: `UDP`
+> - Tags: `DNS Response`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `127.0.0.11`
+> - Protocol: `UDP`
+> - Destination Port: `53`
+> - Tags: `Docker DNS`
+
+#### Allow ICMP Traffic & Loopback
+
+- We will allow ICMP traffic to ping the Pi.
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Protocol: `ICMP`
+> - Tags: `Ping`
 
 > - Direction: `OUTPUT`
-> - Action: `REJECT`
-> - Destination: `192.168.1.0/24`
-> - Protocol: `All`
-> - Tags: `VLAN`
-
-#### Allow Cloudflare traffic
-
-- We allow Cloudflare's IP addresses to target the Pi only to the port `7844`.
-
-> - Direction: `INPUT`
 > - Action: `ACCEPT`
-> - Source: `103.21.244.0/22`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `103.22.200.0/22`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `103.31.4.0/22`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `104.16.0.0/13`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `104.24.0.0/14`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `108.162.192.0/18`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `131.0.72.0/22`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `141.101.64.0/18`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `162.158.0.0/15`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `172.64.0.0/13`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `173.245.48.0/20`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `188.114.96.0/20`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `190.93.240.0/20`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `197.234.240.0/22`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-> - Direction: `INPUT`
-> - Action: `ACCEPT`
-> - Source: `198.41.128.0/17`
-> - Source Port: `7844`
-> - Protocol: `TCP`
-> - Tags: `Cloudflare`
-
-#### Default rules
+> - Protocol: `ICMP`
+> - Tags: `Ping`
 
 - Allow loopback traffic:
 
@@ -300,7 +224,134 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Protocol: `All`
 > - Tags: `Loopback`
 
-- These default rules will block all incoming traffic and allow all outgoing traffic on the IPv4 channel by default, but we will add some rules to allow only the necessary traffic.
+#### Allow Cloudflare traffic
+
+- We allow Cloudflare's IP addresses to target the Pi only to the port `7844`.
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `103.21.244.0/22`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `103.22.200.0/22`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `103.31.4.0/22`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `104.16.0.0/13`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `104.24.0.0/14`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `108.162.192.0/18`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `131.0.72.0/22`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `141.101.64.0/18`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `162.158.0.0/15`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `172.64.0.0/13`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `173.245.48.0/20`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `188.114.96.0/20`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `190.93.240.0/20`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `197.234.240.0/22`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `198.41.128.0/17`
+> - Destination Port: `7844`
+> - Protocol: `TCP`
+> - Tags: `Cloudflare`
+
+#### Default rules
+
+- We allow HTTP and HTTPS traffic:
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `0.0.0.0/0`
+> - Destination Port: `80`
+> - Protocol: `TCP`
+> - Tags: `HTTP`
+
+> - Direction: `INPUT`
+> - Action: `ACCEPT`
+> - Source: `0.0.0.0/0`
+> - Destination Port: `443`
+> - Protocol: `TCP`
+> - Tags: `HTTPS`
+
+- These default rules will block all incoming traffic and allow all outgoing traffic on the IPv4 channel by default.
 
 > - Direction: `INPUT`
 > - Action: `REJECT`
@@ -321,49 +372,49 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2400:cb00::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2606:4700::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2803:f800::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2405:b500::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2405:8100::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2a06:98c0::/29`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
 > - Direction: `INPUT`
 > - Action: `ACCEPT`
 > - Source: `2c0f:f248::/32`
-> - Source Port: `7844`
+> - Destination Port: `7844`
 > - Protocol: `TCP`
 > - Tags: `Cloudflare`
 
