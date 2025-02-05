@@ -135,7 +135,7 @@ services:
 - When prompted to install a connector, select `Docker` and copy the command. Then extract the token in your clipboard.
 - Go back to the `Compose` tab and create a new file:
 
-File: (mind to change the token)
+File:
 
 ```yaml
 services:
@@ -145,7 +145,13 @@ services:
     restart: unless-stopped
     command: tunnel --no-autoupdate run
     environment:
-      - TUNNEL_TOKEN=...
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+```
+
+Environment: (mind to change the token)
+
+```plaintext
+TUNNEL_TOKEN=your_token_here
 ```
 
 - Save, and UP the container. You should see the tunnel running in the `Tunnels` tab.
