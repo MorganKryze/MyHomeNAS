@@ -178,6 +178,7 @@ general:
 search:
   safe_search: 2
   autocomplete: 'brave'
+  favicon_resolver: "duckduckgo"
 
 server:
   # base_url is defined in the SEARXNG_BASE_URL environment variable, see .env and docker-compose.yml
