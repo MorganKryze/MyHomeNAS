@@ -53,7 +53,7 @@ TUNNEL_TOKEN=your_token_here
 
 > [FileBrowser](https://filebrowser.org/): a file manager with multi-user support, file uploading, sharing, and more.
 >
-> Once started, you can access the web interface by accessing `http://your-nas-ip:3670` on your browser.
+> Once started, you can access the web interface by accessing `http://your-nas-ip:9000` on your browser.
 
 ```yaml
 services:
@@ -62,7 +62,7 @@ services:
     container_name: filebrowser
     restart: unless-stopped
     ports:
-      - '3670:80'
+      - '9000:80'
     volumes:
       - CHANGE_TO_BASE_PATH:/srv # SKIP_BACKUP
       - CHANGE_TO_COMPOSE_DATA_PATH/FileBrowser/filebrowser.db:/database/filebrowser.db # SKIP_BACKUP
@@ -74,7 +74,7 @@ services:
 
 > [Stirling pdf](https://www.stirlingpdf.com/): a large pdf tool to convert, merge, split, and compress pdf files.
 >
-> Once started, you can access the web interface by accessing `http://your-nas-ip:8888` on your browser.
+> Once started, you can access the web interface by accessing `http://your-nas-ip:9100` on your browser.
 
 ```yaml
 services:
@@ -83,7 +83,7 @@ services:
     container_name: stirling-pdf
     restart: unless-stopped
     ports:
-      - '8888:8080'
+      - '9100:8080'
     volumes:
       - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/trainingData:/usr/share/tessdata # SKIP_BACKUP
       - CHANGE_TO_COMPOSE_DATA_PATH/StirlingPDF/extraConfigs:/configs # SKIP_BACKUP
@@ -104,7 +104,7 @@ LANGS=en_GB
 
 > [SearXNG](https://docs.searxng.org/): a privacy-respecting, hackable metasearch engine.
 >
-> Once started, you can access the web interface by accessing `http://your-nas-ip:9100` on your browser. To set it as a default search engine, you can use the following URL: `http://your-nas-ip:9100/?q=%s`.
+> Once started, you can access the web interface by accessing `http://your-nas-ip:9200` on your browser. To set it as a default search engine, you can use the following URL: `http://your-nas-ip:9100/?q=%s`.
 
 > [!IMPORTANT]
 > After the first run, you will need to uncomment the `cap_drop` lines in the following configuration. As it is a YAML file, you will need to be careful with the indentation.
@@ -119,7 +119,7 @@ services:
     networks:
       - searxng
     volumes:
-      - CHANGE_TO_COMPOSE_DATA_PATH/SearXNG/valkey-data2:/data
+      - CHANGE_TO_COMPOSE_DATA_PATH/SearXNG/valkey-data2:/data # SKIP_BACKUP
     # cap_drop: # uncomment after the first run
     #   - ALL
     cap_add:
@@ -139,9 +139,9 @@ services:
     networks:
       - searxng
     ports:
-      - '9100:8080'
+      - '9200:8080'
     volumes:
-      - CHANGE_TO_COMPOSE_DATA_PATH/SearXNG/:/etc/searxng:rw
+      - CHANGE_TO_COMPOSE_DATA_PATH/SearXNG/:/etc/searxng:rw # SKIP_BACKUP
     environment:
       - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
       - UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
@@ -178,7 +178,7 @@ general:
 search:
   safe_search: 2
   autocomplete: 'brave'
-  favicon_resolver: "duckduckgo"
+  favicon_resolver: 'duckduckgo'
 
 server:
   # base_url is defined in the SEARXNG_BASE_URL environment variable, see .env and docker-compose.yml
@@ -222,6 +222,94 @@ sed -i "s|ultrasecretkey|$(openssl rand -hex 32)|g" ./settings.yml
 ```
 
 ## Media
+
+> [Glance](https://github.com/glanceapp/glance): a self-hosted dashboard that puts all your feeds in one place.
+>
+> Once started, you can access the web interface by accessing `http://your-nas-ip:9300` on your browser.
+
+```yaml
+services:
+  glance:
+    image: glanceapp/glance
+    container_name: glance
+    volumes:
+      - CHANGE_TO_COMPOSE_DATA_PATH/Glance/glance.yml:/app/glance.yml
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 9300:8080
+    restart: unless-stopped
+```
+
+Before starting the container, you will need to create a `glance.yml` file in the `CHANGE_TO_COMPOSE_DATA_PATH/Glance/` folder. Here is an example of the file:
+
+```yaml
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: calendar
+
+          - type: rss
+            limit: 10
+            collapse-after: 3
+            cache: 3h
+            feeds:
+              - url: https://ciechanow.ski/atom.xml
+              - url: https://www.joshwcomeau.com/rss.xml
+                title: Josh Comeau
+              - url: https://samwho.dev/rss.xml
+              - url: https://awesomekling.github.io/feed.xml
+              - url: https://ishadeed.com/feed.xml
+                title: Ahmad Shadeed
+
+          - type: twitch-channels
+            channels:
+              - theprimeagen
+              - cohhcarnage
+              - christitustech
+              - blurbs
+              - asmongold
+              - jembawls
+
+      - size: full
+        widgets:
+          - type: hacker-news
+
+          - type: videos
+            channels:
+              - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
+              - UCv6J_jJa8GJqFwQNgNrMuww # ServeTheHome
+              - UCOk-gHyjcWZNj3Br4oxwh0A # Techno Tim
+
+          - type: reddit
+            subreddit: selfhosted
+
+      - size: small
+        widgets:
+          - type: weather
+            location: London, United Kingdom
+
+          - type: markets
+            markets:
+              - symbol: SPY
+                name: S&P 500
+              - symbol: BTC-USD
+                name: Bitcoin
+              - symbol: NVDA
+                name: NVIDIA
+              - symbol: AAPL
+                name: Apple
+              - symbol: MSFT
+                name: Microsoft
+              - symbol: GOOGL
+                name: Google
+              - symbol: AMD
+                name: AMD
+              - symbol: RDDT
+                name: Reddit
+```
 
 ## Gaming
 
