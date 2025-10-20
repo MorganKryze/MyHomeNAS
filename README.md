@@ -25,7 +25,7 @@ This build is perfect for beginners who want to explore the world of NAS and hom
 
 ![Pironman 5 max](./docs/assets/img/builds/rpi/presentation.png)
 
-### Level 2: ITX motherboard + 4 HDD (aka "le juste milieu")
+### Level 2: ITX motherboard + 4-5 HDD (aka "le juste milieu")
 
 | Compute base       | Price | Power Consumption | Difficulty   | Use case                                                                                     |
 | ------------------ | ----- | ----------------- | ------------ | -------------------------------------------------------------------------------------------- |
