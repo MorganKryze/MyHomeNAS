@@ -2,22 +2,52 @@
 
 ## Overview
 
-> MyHomeNAS provides you builds and guides to create your home (own) NAS using a Single Board Computer and OpenMediaVault.
+Welcome to My Home NAS (MHN), a comprehensive guide to building your own Network Attached Storage (NAS) right at home. Whether you're a beginner looking to dip your toes into the world of home servers or an experienced enthusiast aiming to optimize your storage solutions, this guide may have something for you.
 
-The goal of this project is to provide a "template" for you to get inspiration and build your own secure and reliable NAS config to store your data and to access it from anywhere and deploy useful homelab services. The configuration allow modularity for future improvements, scalability and different budgets.
+Building a NAS that gives you control over your data, enhances your privacy, and provides a centralized location for all your files is an empowering experience and should not be a hassle. We will try to bring you a way for each budget and headache tolerance.
+
+We will break down a few builds, and explain the components choices behind them. Feel free to adapt them according to your needs and budget and experience level.
 
 > [!IMPORTANT]
 > The authors of this project are not responsible for any data loss, hardware failure or security breach. You are the only responsible for your data and your network. See this project as suggestions and should be adapted to your needs and your knowledge.
 
-## Project
+## Let's explore the builds
 
-The documentation is for now composed of markdown files in the `docs` folder. The goal is to provide a complete guide to setup your NAS from the hardware to the software.
+### Level 1: Raspberry Pi 5 + 2 SSD (aka "la débrouille")
 
-Start with the -> [`index`](./docs/index.md) <- to discover everything!
+| Compute base      | Price | Power Consumption | Difficulty | Use case                                                                    |
+| ----------------- | ----- | ----------------- | ---------- | --------------------------------------------------------------------------- |
+| Low: Raspberry Pi | ~300€ | 15-20W            | Beginner   | Personal cloud storage, media server, backup server, low storage, low power |
 
-## Supported languages
+This build is perfect for beginners who want to explore the world of NAS and homeserver without breaking the bank. The Raspberry Pi 5 is a powerful SBC that can handle basic NAS tasks with ease. With 2 SSDs, you can set up a mirror configuration for data redundancy and feel safe about your data.
 
-- Only English is supported for now. The project may be translated in the future if the interest is there.
+[🛠️ Start building!](./docs/parts/builds/rpi/index.md)
+
+![Pironman 5 max](./docs/assets/img/builds/rpi/presentation.png)
+
+### Level 2: ITX motherboard + 4 HDD (aka "le juste milieu")
+
+| Compute base       | Price | Power Consumption | Difficulty   | Use case                                                                                     |
+| ------------------ | ----- | ----------------- | ------------ | -------------------------------------------------------------------------------------------- |
+| Medium: ITX Mother | ~800€ | 50-60W            | Intermediate | Home media server, file sharing, backup server, moderate/high storage, low power consumption |
+
+This build is ideal for those who want a more robust NAS setup with increased storage capacity and performance. An ITX motherboard with integrated CPU will provide the necessary power to handle multiple users and services without increasing power consumption too much. With 4 HDDs, you can set up RAID configurations for data redundancy and performance.
+
+[🛠️ Start building!](./docs/parts/builds/itx/index.md)
+
+![ITX build presentation](./docs/assets/img/builds/itx/presentation.png)
+
+### Level 3: Full tower + 12 HDD (aka "le monstre")
+
+| Compute base                   | Price  | Power Consumption | Difficulty | Use case                                                                                                               |
+| ------------------------------ | ------ | ----------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| High: Full Tower with atx mobo | ~2000€ | 180-400W          | Advanced   | Enterprise-grade storage, virtualization, high availability, large-scale media server, high/very high storage capacity |
+
+This build is for advanced users who require strong cloud independence and massive storage capacity. A full tower case allows for multiple HDDs and better cooling solutions, making it suitable for enterprise-grade storage solutions. With 12 HDDs, you can implement advanced RAID configurations for maximum data redundancy and performance. The additionnal capabilities (services, virtual machines, etc.) will require a more powerful CPU and maybe some GPU, implying a higher power consumption.
+
+[🛠️ Start building!](./docs/parts/builds/atx/index.md)
+
+![ATX build presentation](./docs/assets/img/builds/atx/presentation.png)
 
 ## Contributing
 
