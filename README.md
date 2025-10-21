@@ -23,7 +23,7 @@ This build is perfect for beginners who want to explore the world of NAS and hom
 
 [🛠️ Start building!](./docs/parts/builds/rpi/index.md)
 
-![Pironman 5 max](./docs/assets/img/builds/rpi/presentation.png)
+[![Pironman 5 max](./docs/assets/img/builds/rpi/presentation.png)](https://www.sunfounder.com/products/pironman-5-max)
 
 ### Level 2: ITX motherboard + 4-5 HDD (aka "le juste milieu")
 
@@ -35,7 +35,7 @@ This build is ideal for those who want a more robust NAS setup with increased st
 
 [🛠️ Start building!](./docs/parts/builds/itx/index.md)
 
-![ITX build presentation](./docs/assets/img/builds/itx/presentation.png)
+[![ITX build presentation](./docs/assets/img/builds/itx/presentation.png)](https://modcase.com.au/products/nas)
 
 ### Level 3: Full tower + 12 HDD (aka "le monstre")
 
@@ -47,7 +47,7 @@ This build is for advanced users who require strong cloud independence and massi
 
 [🛠️ Start building!](./docs/parts/builds/atx/index.md)
 
-![ATX build presentation](./docs/assets/img/builds/atx/presentation.png)
+[![ATX build presentation](./docs/assets/img/builds/atx/presentation.png)](https://www.printables.com/model/1278847-12-bay-atx-nas-case)
 
 ## Contributing
 
