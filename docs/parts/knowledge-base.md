@@ -1,16 +1,16 @@
-# Learning path
+# Knowledge Base
 
 ## Storage
 
 ### RAID Arrays
 
-Source video: https://www.youtube.com/watch?v=UuUgfCvt9-Q
+Source video: <https://www.youtube.com/watch?v=UuUgfCvt9-Q>
 
-Source article: https://www.geeksforgeeks.org/dbms/raid-redundant-arrays-of-independent-disks/
+Source article: <https://www.geeksforgeeks.org/dbms/raid-redundant-arrays-of-independent-disks>
 
-:::info
+```info
 RAID: Redundant Array of Independent Disks
-:::
+```
 
 #### RAID 0
 
@@ -26,7 +26,7 @@ Description: Data is spread across all disk without redundancy. All the array is
 
 Effective space: All disk space is allocated to storing files.
 
-![](https://docs.libresoftware.cloud/api/files/0199589f-de5e-7139-913d-1d21f25e5136/Screenshot_2025-09-17_at_19.01.28.png)
+![RAID0](../assets/img/knowledge/raid-0.png)
 
 #### RAID 1
 
@@ -42,7 +42,7 @@ Description: Data is spread evenly between two disks. If one fails, you may inte
 
 Effective space: Half of the disk space is used to store files, the other is used to replicate the files.
 
-![](files/019958a0-ff8d-719e-868a-289bb9028bb0/Screenshot_2025-09-17_at_19.02.45.png)
+![RAID1](../assets/img/knowledge/raid-1.png)
 
 #### RAID 5
 
@@ -58,7 +58,7 @@ Description: Parity data is stored across the disks (name Px on the picture) to 
 
 Effective space: You should consider losing the equivalent of the space of one disk.
 
-![](files/019958a1-bd19-756f-a293-03d922108e9b/Screenshot_2025-09-17_at_19.03.32.png)
+![RAID5](../assets/img/knowledge/raid-5.png)
 
 #### RAID 6
 
@@ -74,15 +74,15 @@ Description: Parity data is now stored twice allowing up to two disk failure on 
 
 Effective space: You should consider losing the equivalent of the space of two disks.
 
-![](files/019958a2-2208-77ab-a34b-dd3cc42b5ea7/Screenshot_2025-09-17_at_19.03.59.png)
+![RAID6](../assets/img/knowledge/raid-6.png)
 
 ### ZFS
 
-Source article: https://en.wikipedia.org/wiki/ZFS
+Source article: <https://en.wikipedia.org/wiki/ZFS>
 
-:::info
+```info
 ZFS: Zettabyte File System
-:::
+```
 
 | Conventional File System | ZFS      |
 | ------------------------ | -------- |
@@ -94,35 +94,35 @@ ZFS: Zettabyte File System
 
 #### Read speed
 
-Source video: https://www.youtube.com/watch?v=3T5wBZOm4hY&t=431s
+Source video: <https://www.youtube.com/watch?v=3T5wBZOm4hY&t=431s>
 
-:::warning
+```warning
 ARC: Adaptive Replacement cache
 
 Stores in RAM most accessed files to speed up read speed. Advised to get 1GB of RAM for 1TB of storage roughly, it highly depends on the use of the NAS (archiving files would require less resources than video editing or virtualization).
-:::
+```
 
-:::success
+```success
 L2ARC: Level 2 ARC
 
 Stores on a faster storage disk random and large files accessed regularly to improve read speed compared to HDD. Generally a large SSD. If the amount of RAM is already high you would not notice a large difference.
-:::
+```
 
 #### Write speed
 
-Source article: https://jrs-s.net/2019/05/02/zfs-sync-async-zil-slog/
+Source article: <https://jrs-s.net/2019/05/02/zfs-sync-async-zil-slog/>
 
-:::warning
+```warning
 ZIL: ZFS Intent Log
 
 A section inside the storage pool. It stores the files that will later be written on the storage pool. In total, the files will be written twice on HDD drives, meaning slow write speed.
-:::
+```
 
-:::success
+```success
 SLOG: Separate LOG
 
 A vdev storing ZIL, usually mirrored SSDs. This greatly improves speed by writing first to a SSD drive, before committing to the slow storage pool. Usually, nothing is really read from the SLOG, or ZIL for the matter, their intent is a backup in case of a crash and the system could not write the files at the right place in time.
-:::
+```
 
 Note that SLOG devices rarely have more than 4GB in use at any given time, so the smaller sized devices are generally the best choice in terms of cost, with larger sizes giving no benefit. Larger sizes could be a good choice for other vdev types, depending on performance needs and cost considerations.
 
@@ -130,29 +130,29 @@ The intents (file writes) are sent to the ZIL or SLOG on a Sync mode, then writt
 
 ### CMR vs SMR drives
 
-Source article: https://buffaloamericas.com/resources/cmr-vs-smr-hard-drives-in-network-attached-storage-nas-msp
+Source article: <https://buffaloamericas.com/resources/cmr-vs-smr-hard-drives-in-network-attached-storage-nas-msp>
 
-:::warning
+```warning
 SMR: Shingled Magnetic Recording
 
 SMR is a relatively new technology that utilizes the fact that write tracks are wider than read tracks on a drive. Data is written sequentially onto a track, and then the track is partially overlapped over another track of data, creating a pattern similar to the shingles on a house roof. SMR removes the aforementioned gaps between tracks, allowing more data tracks to be written onto a drive’s magnetic surface and thereby increasing its storage capacity.
-:::
+```
 
-:::success
+```success
 CMR: Conventional Magnetic Recording
 
 When data is written onto a CMR drive, it is written onto magnetic tracks on the drive surface that are laid side-by-side, with small gaps being placed between the tracks so that they do not overlap. These separator gaps affect the overall areal density of the drive, as they mean portions of the drive’s surface are not being utilized.
 
 With a CMR drive, data can be freely rewritten over an existing track as it has no effect on neighboring tracks, allowing them to handle more random write operations.
-:::
+```
 
 While SMR drives increase capacity for lower cost (because the drives can use fewer platters than a CMR drive at the same capacity), the way they work also comes with a speed penalty. When you copy data to an SMR drive, the drive temporarily stores the data in a special cache area and uses idle time later to organize it into shingled regions on the platter. Long, sustained writes suffer speed penalties because if the cache fills up, each time an SMR drive overwrites part of a previous track, it must read and re-write the "partially covered" underlying data as well. So SMR drives can [perform dramatically slower](https://www.servethehome.com/wd-red-smr-vs-cmr-tested-avoid-red-smr/2/) than CMR drives.
 
-![](files/019975ce-c89e-7778-9977-b831ee618e35/Screenshot_2025-09-23_at_11-01-34_CMR_vs_SMR_Hard_Drives_in_Network_Attached_Storage_%28NAS%29_Buffalo_Americas.png)
+![CMR vs SMR](../assets/img/knowledge/cmr-smr.png)
 
 ### Disk cooling
 
-Source article: https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#storage-device-cooling
+Source article: <https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#storage-device-cooling>
 
 Some may find unuseful to add a proper cooling mechanism for storage cooling. But it is recommended to keep disk at a 26-30°C with ventilation for better efficiency and reliability. Expect to double the error rate each 12°C reached. In general, try to keep drive temperatures below the drive specification provided by the vendor.
 
@@ -160,13 +160,13 @@ Some may find unuseful to add a proper cooling mechanism for storage cooling. Bu
 
 ### ECC RAM
 
-Source article: https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#error-correcting-code-memory
+Source article: <https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#error-correcting-code-memory>
 
-:::info
+```info
 ECC: Error Correcting Code Memory
 
 Error-correcting code or ECC RAM detects and corrects in-memory bit errors as they occur. If errors are severe enough to be uncorrectable, ECC memory causes the system to hang (become unresponsive) rather than continue with errored bits. For ZFS and TrueNAS, this behavior virtually eliminates any chances that RAM errors pass to the drives to cause corruption of the ZFS pools or file errors.
-:::
+```
 
 Most users _strongly_ recommend ECC RAM as another data integrity defense.
 
@@ -179,7 +179,7 @@ However:
 
 ### Memory sizing
 
-Source article: https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#memory-sizing
+Source article: <https://www.truenas.com/docs/core/13.0/gettingstarted/corehardwareguide/#memory-sizing>
 
 RAM rarely goes unused on a TrueNAS system, and enough RAM is vital to maintaining peak performance. You should have 8 GB of RAM for basic TrueNAS operations with up to eight drives. Other use cases each have distinct RAM requirements:
 
@@ -192,7 +192,7 @@ RAM rarely goes unused on a TrueNAS system, and enough RAM is vital to maintaini
 
 ### CPU
 
-Choosing ECC RAM limits your CPU and motherboard options, but that can be beneficial. Intel<sup>®</sup> limits ECC RAM support to their lowest and highest-end CPUs, cutting out the mid-range i5 and i7 models.
+Choosing ECC RAM limits your CPU and motherboard options, but that can be beneficial. Intel® limits ECC RAM support to their lowest and highest-end CPUs, cutting out the mid-range i5 and i7 models.
 
 Which CPU to choose can come down to a short list of factors:
 
@@ -208,7 +208,7 @@ We will focus on AMD Ryzen series. Why? Because.
 
 Here is how to understand the nomenclature of their CPU:
 
-![](files/0199a0e9-0bff-709d-9857-001875e87352/image.png)
+![AMD Ryzen Nomenclature](../assets/img/knowledge/ryzen-nomenclature.png)
 
 ### Remote Management: IPMI
 
@@ -228,21 +228,21 @@ The top criteria to consider for a power supply unit (or PSU) on a TrueNAS syste
 - Relative noise
 - Optional redundancy to keep critical systems running if one power supply fails
 
-:::info
+```info
 UPSU: Uninterrupted Power Supply Units
 
 PSU with an additional battery to keep the NAS in uptime to mitigate the power outage issue. Usually overkill for most home builds.
-:::
+```
 
 ### PCIe expansion slots and cards
 
-Source article: https://www.crystalrugged.com/knowledge/what-is-pcie-slots-cards-lanes/
+Source article: <https://www.crystalrugged.com/knowledge/what-is-pcie-slots-cards-lanes/>
 
-:::info
+```info
 PCIe: Peripheral Component Interconnect Express
 
 A high-speed interface standard used for connecting various internal components in a computer system. PCIe is primarily used for connecting expansion cards (graphics cards, network cards, storage controllers) to the motherboard.
-:::
+```
 
 #### Lanes size
 
@@ -253,13 +253,13 @@ The standard includes 4 different lanes layouts:
 - x8 for high-performance expansion cards that require greater data transfer rates, such as some network adapters and specialized data acquisition cards.
 - x16 are associated with graphics cards (GPUs) and provide the highest bandwidth available on a standard consumer motherboard. High-end gaming, content creation, and workstation systems often feature PCIe x16 slots for powerful graphics processing.
 
-![](files/0199be95-ce11-76bd-81a4-e2e07ac2ce9f/image.png)
+![PCIe Lanes](../assets/img/knowledge/pcie.png)
 
-:::warning
+```warning
 You can use PCIe cards of a lower lane width (e.g., x2, x4, or x8) in a higher lane width slot (e.g., x16).
 
 PCI-Express will negotiate how many lanes will be used, and your card will work at its full speed, assuming the PCIe slot has the same or higher PCIe version.
-:::
+```
 
 #### PCIe version
 
