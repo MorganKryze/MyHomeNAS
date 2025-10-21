@@ -48,6 +48,9 @@ What you will need to install on your desktop to prepare the micro SD card for t
 
 ## Get started
 
+> [!CAUTION]
+> For now, the folowing guides are outdated and need to be reworked to fit the new build idea. You may find interesting information in them, but be aware that some steps may not apply anymore.
+
 - [Setting up the raspberry pi](./raspberrypi.md) WIP
 - [First boot and OMV installation](./omv-first-boot.md) WIP
 - [Storage setup](./omv-storage.md) WIP
