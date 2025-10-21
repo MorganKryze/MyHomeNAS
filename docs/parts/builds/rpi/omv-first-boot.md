@@ -2,7 +2,7 @@
 
 > This guide will help you to set up a NAS using OpenMediaVault on a Raspberry Pi.
 
-- **Want to go back to the index page?** [click here](../index.md).
+- **Want to go back to the index page?** [click here](./index.md).
 
 ## Table of Contents
 
