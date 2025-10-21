@@ -30,6 +30,7 @@ These components are needed to build a basic Raspberry Pi 5 based NAS with 2 SSD
 | micro SD card  | For the OS installation        | 10€            | 1        | 10€            | [kubii](https://www.kubii.com/en/storage-device/4392-2099-official-raspberry-pi-sd-card-3272496319158.html#/storage_capacity-32_gb/os-without_os_activated), [amazon](https://amzn.eu/d/85VKNLo)       |
 
 Base budget (without storage): **~185€**
+
 Complete budget (with 2x1To SSDs): **~315€**
 
 ### Extras
