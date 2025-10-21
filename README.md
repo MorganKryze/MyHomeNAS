@@ -9,7 +9,7 @@ Building a NAS that gives you control over your data, enhances your privacy, and
 We will break down a few builds, and explain the components choices behind them. Feel free to adapt them according to your needs and budget and experience level.
 
 > [!IMPORTANT]
-> The authors of this project are not responsible for any data loss, hardware failure or security breach. You are the only responsible for your data and your network. See this project as suggestions and should be adapted to your needs and your knowledge.
+> The authors of this project will not be held responsible for any data loss, hardware failure or security breach. You are the only responsible for your data and your network. See this project as suggestions and should be adapted to your needs and your knowledge.
 
 ## Let's explore the builds
 
