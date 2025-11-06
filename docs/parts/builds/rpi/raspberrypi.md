@@ -37,9 +37,9 @@ This section will be focusing on the installation of the SBC and the configurati
   - Choose SD Card: `Choose the SD Card you entered`
   - Click Next
 
-![image](../assets/img/raspberrypi/imager-1.png)
+![image](../../../assets/img/builds/rpi/raspberrypi/imager-1.png)
 
-![image](../assets/img/raspberrypi/imager-2.png)
+![image](../../../assets/img/builds/rpi/raspberrypi/imager-2.png)
 
 - Then, before writing update the pre-config:
   - hostname: `myhomenas`
@@ -47,11 +47,11 @@ This section will be focusing on the installation of the SBC and the configurati
   - password: `******` (choose a strong password and store it in a password manager)
   - Disable WiFi as we will connect it through ethernet
 
-![image](../assets/img/raspberrypi/imager-3.png)
+![image](../../../assets/img/builds/rpi/raspberrypi/imager-3.png)
 
 - And allow ssh connexions from the services tab (by password):
 
-![image](../assets/img/raspberrypi/imager-4.png)
+![image](../../../assets/img/builds/rpi/raspberrypi/imager-4.png)
 
 - Finally, plug the sd card in the raspberry pi and connect it to the network through ethernet and power it on.
 
@@ -107,9 +107,9 @@ hostname -I | awk '{print $1}'
 sudo dpkg-reconfigure locales
 ```
 
-![locale-1](../assets/img/raspberrypi/locale-1.png)
+![locale-1](../../../assets/img/builds/rpi//raspberrypi/locale-1.png)
 
-![locale-2](../assets/img/raspberrypi/locale-2.png)
+![locale-2](../../../assets/img/builds/rpi//raspberrypi/locale-2.png)
 
 - Then, run:
 
@@ -174,16 +174,10 @@ deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free non
 sudo apt update
 ```
 
-- If no error shows up, install the `nala` package to get a nicer package manager:
+- If no error shows up, proceed to upgrade the other packages:
 
 ```bash
-sudo apt install nala -y
-```
-
-- Then proceed to upgrade the other packages:
-
-```bash
-sudo nala upgrade -y
+sudo apt upgrade -y
 ```
 
 - Reboot the SBC to apply the changes:
@@ -298,7 +292,7 @@ In this section, we will add some services to secure the Pi and to monitor it.
 - Install the `micro` package:
 
 ```bash
-sudo nala install micro -y
+sudo apt install micro -y
 ```
 
 - Set the `micro` editor as the default editor by adding the following line to the `.zshrc` file:
@@ -334,7 +328,7 @@ source ~/.bashrc
 - Install `git` to clone repositories:
 
 ```bash
-sudo nala install git -y
+sudo apt install git -y
 ```
 
 ## Next step
