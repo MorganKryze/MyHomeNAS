@@ -15,9 +15,9 @@ We will break down a few builds, and explain the components choices behind them.
 
 ### Level 1: Raspberry Pi 5 + 2 SSD (aka "la débrouille")
 
-| Compute base      | Price | Power Consumption | Difficulty | Use case                                                                    |
-| ----------------- | ----- | ----------------- | ---------- | --------------------------------------------------------------------------- |
-| Low: Raspberry Pi | ~300€ | 15-20W            | Beginner   | Personal cloud storage, media server, backup server, low storage, low power |
+| Compute base      | Budget (base / with storage) | Power Consumption | Difficulty | Use case                                                                    |
+| ----------------- | ---------------------------- | ----------------- | ---------- | --------------------------------------------------------------------------- |
+| Low: Raspberry Pi | ~200€ / ~300€                | 15-20W            | Beginner   | Personal cloud storage, media server, backup server, low storage, low power |
 
 This build is perfect for beginners who want to explore the world of NAS and homeserver without breaking the bank. The Raspberry Pi 5 is a powerful SBC that can handle basic NAS tasks with ease. With 2 SSDs, you can set up a mirror configuration for data redundancy and feel safe about your data.
 
@@ -27,9 +27,9 @@ This build is perfect for beginners who want to explore the world of NAS and hom
 
 ### Level 2: ITX motherboard + 4-5 HDD (aka "le juste milieu")
 
-| Compute base       | Price | Power Consumption | Difficulty   | Use case                                                                                     |
-| ------------------ | ----- | ----------------- | ------------ | -------------------------------------------------------------------------------------------- |
-| Medium: ITX Mother | ~800€ | 50-60W            | Intermediate | Home media server, file sharing, backup server, moderate/high storage, low power consumption |
+| Compute base       | Budget (base / with storage) | Power Consumption | Difficulty   | Use case                                                                                     |
+| ------------------ | ---------------------------- | ----------------- | ------------ | -------------------------------------------------------------------------------------------- |
+| Medium: ITX Mother | ~300€ / ~800€                | 50-60W            | Intermediate | Home media server, file sharing, backup server, moderate/high storage, low power consumption |
 
 This build is ideal for those who want a more robust NAS setup with increased storage capacity and performance. An ITX motherboard with integrated CPU will provide the necessary power to handle multiple users and services without increasing power consumption too much. With 4 HDDs, you can set up RAID configurations for data redundancy and performance.
 
@@ -39,9 +39,9 @@ This build is ideal for those who want a more robust NAS setup with increased st
 
 ### Level 3: Full tower + 12 HDD (aka "le monstre")
 
-| Compute base                   | Price  | Power Consumption | Difficulty | Use case                                                                                                               |
-| ------------------------------ | ------ | ----------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
-| High: Full Tower with atx mobo | ~2000€ | 180-400W          | Advanced   | Enterprise-grade storage, virtualization, high availability, large-scale media server, high/very high storage capacity |
+| Compute base                   | Budget (base / with storage) | Power Consumption | Difficulty | Use case                                                                                                               |
+| ------------------------------ | ---------------------------- | ----------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| High: Full Tower with atx mobo | ~500€ / ~2000€                       | 180-400W          | Advanced   | Enterprise-grade storage, virtualization, high availability, large-scale media server, high/very high storage capacity |
 
 This build is for advanced users who require strong cloud independence and massive storage capacity. A full tower case allows for multiple HDDs and better cooling solutions, making it suitable for enterprise-grade storage solutions. With 12 HDDs, you can implement advanced RAID configurations for maximum data redundancy and performance. The additionnal capabilities (services, virtual machines, etc.) will require a more powerful CPU and maybe some GPU, implying a higher power consumption.
 
